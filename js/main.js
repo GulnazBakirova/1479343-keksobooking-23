@@ -1,26 +1,3 @@
-function getRandomIntegerInRange (min, max) {
-  if (max <= min) {
-    return 'Второе число не может быть меньше первого!';
-  }
-  if (min < 0 || max < 0) {
-    return 'Нельзя использовать отрицательное число!';
-  }
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-//getRandomInRange(0, 3)
-
-
-//function getRandomFloat(min, max, num) {
-// if (max <= min) {
-//    return 'Второе число не может быть меньше первого!';
-//  }
-//  if (min < 0 || max < 0) {
-//    return 'Нельзя использовать отрицательное число!';
-//  }
-// return (Math.random() * (max - min) + min).toFixed(num);
-//}
-//getRandomFloat(1, 3, 3)
-
 const getRandomArrayElement = (elements) => {
   return elements[getRandomIntegerInRange(0, elements.length - 1)];
 };
@@ -47,37 +24,57 @@ const author = {
 };
 
 const offer = {
-  title: '',
+  title: getRandomArrayElement(TITLES),
 
   address: location.x, location.y,
 
   price: getRandomIntegerInRange(0, MAX_PRICE),
 
-  type: '',
+  type: getRandomArrayElement(TYPES),
 
   rooms: getRandomIntegerInRange(0, MAX_ROOMS),
 
   guests: getRandomIntegerInRange(0, MAX_GUESTS),
 
-  checkin: {
-  '12:00',
-  '13:00',
-  '14:00'},
+  checkin: getRandomArrayElement(CHECKIN_TIMES),
 
-  checkout: {
-  '12:00',
-  '13:00',
-  '14:00'},
+  checkout: getRandomArrayElement(CHECKIN_TIMES),
 
-  features: [],
+  features: getRandomArrayElement(FEATURES),
 
   description: 'Расскажите подробнее о вашем жилье',
 
-  photos: []
+  photos: getRandomArrayElement(PHOTOS)
 };
 
 const location = {
-  lat: 0,
-  lng: 0
+  lat: getRandomFloat(35.65000, 35.70000),
+  lng: getRandomFloat(139.70000, 139.80000)
 };
 
+
+function getRandomIntegerInRange (min, max) {
+  if (max <= min) {
+    return 'Второе число не может быть меньше первого!';
+  }
+  if (min < 0 || max < 0) {
+    return 'Нельзя использовать отрицательное число!';
+  }
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomFloat(min, max) {
+ if (max <= min) {
+    return 'Второе число не может быть меньше первого!';
+  }
+  if (min < 0 || max < 0) {
+    return 'Нельзя использовать отрицательное число!';
+  }
+ return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function chooseAvatar () {
+  const i = Math.round(Math.random() * (8 - 1) + 1);
+    const link = 'img/avatars/user0' + i + '.png';
+    return link;
+}
