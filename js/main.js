@@ -4,10 +4,15 @@ const getRandomArrayElement = (elements) => {
 const MAX_PRICE = 10000;
 const MAX_ROOMS = 10000;
 const MAX_GUESTS = 10000;
+
 const LAT_MIN = 35.65000;
 const LAT_MAX = 35.70000;
 const LNG_MIN = 139.70000;
 const LNG_MAX = 139.80000;
+
+const tempLat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
+const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5)
+
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
@@ -30,7 +35,7 @@ const author = {
 const offer = {
   title: getRandomArrayElement(TITLES),
 
-  address: location.x, location.y,
+  address: tempLat + tempLng,
 
   price: getRandomIntegerInRange(0, MAX_PRICE),
 
@@ -52,8 +57,8 @@ const offer = {
 };
 
 const location = {
-  lat: getRandomFloat(LAT_MIN, LAT_MAX, 5),
-  lng: getRandomFloat(LNG_MIN, LNG_MAX, 5)
+  lat: tempLat,
+  lng: tempLng
 };
 
 
