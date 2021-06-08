@@ -24,17 +24,12 @@ const TITLES = ['Квартира', 'Отель', 'Комната', 'Кемпи�
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
 
-function chooseAvatar () {
-  const i = Math.round(Math.random() * (8 - 1) + 1);
-    const link = 'img/avatars/user0' + i + '.png';
-    return link;
-};
-
-const author = {
+const advert {
+  author: {
   avatar: chooseAvatar()
-};
+  };
 
-const offer = {
+  offer: {
   title: getRandomArrayElement(TITLES),
 
   address: tempLat + ', ' + tempLng,
@@ -56,13 +51,19 @@ const offer = {
   description: 'Расскажите подробнее о вашем жилье',
 
   photos: getFirst(PHOTOS)
-};
+  };
 
-const location = {
+  location: {
   lat: tempLat,
-  lng: tempLng
+  lng: tempLng,
+  }
 };
 
+function chooseAvatar () {
+  const i = Math.round(Math.random() * (8 - 1) + 1);
+    const link = 'img/avatars/user0' + i + '.png';
+    return link;
+};
 
 function getRandomIntegerInRange (min, max) {
   if (max <= min) {
