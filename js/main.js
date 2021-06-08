@@ -4,6 +4,10 @@ const getRandomArrayElement = (elements) => {
 const MAX_PRICE = 10000;
 const MAX_ROOMS = 10000;
 const MAX_GUESTS = 10000;
+const LAT_MIN = 35.65000;
+const LAT_MAX = 35.70000;
+const LNG_MIN = 139.70000;
+const LNG_MAX = 139.80000;
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
@@ -48,8 +52,8 @@ const offer = {
 };
 
 const location = {
-  lat: getRandomFloat(35.65000, 35.70000),
-  lng: getRandomFloat(139.70000, 139.80000)
+  lat: getRandomFloat(LAT_MIN, LAT_MAX, 5),
+  lng: getRandomFloat(LNG_MIN, LNG_MAX, 5)
 };
 
 
@@ -63,15 +67,16 @@ function getRandomIntegerInRange (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getRandomFloat(min, max) {
+function getRandomFloat(min, max, num) {
  if (max <= min) {
     return 'Второе число не может быть меньше первого!';
   }
   if (min < 0 || max < 0) {
     return 'Нельзя использовать отрицательное число!';
   }
- return Math.floor(Math.random() * (max - min)) + min;
+ return (Math.random() * (max - min) + min).toFixed(num);
 }
+
 
 function chooseAvatar () {
   const i = Math.round(Math.random() * (8 - 1) + 1);
