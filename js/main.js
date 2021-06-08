@@ -46,7 +46,7 @@ const author = {
   avatar: chooseAvatar()
 };
 
-const OFFER = {
+const offer = {
   title: '',
 
   address: location.x, location.y,
