@@ -24,64 +24,46 @@
 const getRandomIntegerInRange = (elements) => {
   return elements[_.random(0, elements.length - 1)];
 };
-const FEATURES = [wifi, dishwasher, parking, washer, elevator, conditioner];
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
-const CHECKIN = ['12:00','13:00','14:00'];
-const CHECKOUT = ['12:00','13:00','14:00'];
-const TITLE = ['Квартира', 'Отель', 'Комната', 'Кемпинг', 'Трейлер'];
+const CHECKIN_TIMES = ['12:00','13:00','14:00'];
+const CHECKOUT_TIMES = ['12:00','13:00','14:00'];
+const TITLES = ['Квартира', 'Отель', 'Комната', 'Кемпинг', 'Трейлер'];
+const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
-function price (min, max) {
+
+function countQuantity (min, max) {
   const MAX_PRICE = 10000;
-    if (min < 0 || max < 0) {
-    return 'Цена не может быть меньше 0!';
-     }
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-function rooms (min, max) {
   const MAX_ROOMS = 10000;
-    if (min < 0 || max < 0) {
-    return 'Количество комнат не может быть меньше 0!';
-     }
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-function guests (min, max) {
   const MAX_GUESTS = 10000;
     if (min < 0 || max < 0) {
-    return 'Количество гостей не может быть меньше 0!';
+    return 'Нельзя использовать отрицательное число!';
      }
   return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-let author = {
+const AUTHOR = {
   avatar: function () {
-    let i = Math.round(Math.random() * (8 - 1) + 1);
-    let link = 'img/avatars/user0' + i + '.png';
+    const i = Math.round(Math.random() * (8 - 1) + 1);
+    const link = 'img/avatars/user0' + i + '.png';
     return link;
   }
-
 };
 
-
-let offer = {
-  title,
+const OFFER = {
+  title: '',
 
   address: location.x, location.y,
 
-  getRandomIntegerInRange(0, MAX_PRICE),
+  price: getRandomIntegerInRange(0, MAX_PRICE),
 
-  type: {
-    palace,
-    flat,
-    house,
-    bungalow,
-    hotel
-  },
+  type: '',
 
-  getRandomIntegerInRange(0, MAX_ROOMS),
+  rooms: getRandomIntegerInRange(0, MAX_ROOMS),
 
-  getRandomIntegerInRange(0, MAX_GUESTS),
+  guests: getRandomIntegerInRange(0, MAX_GUESTS),
 
   checkin: {
   '12:00',
@@ -100,16 +82,7 @@ let offer = {
   photos: []
 };
 
-let location = {
+const LOCATION = {
   lat: 0,
   lng: 0
 };
-
-
-
-
-
-
-
-
-
