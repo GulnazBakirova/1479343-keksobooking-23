@@ -27,7 +27,7 @@ const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const advert {
   author: {
   avatar: chooseAvatar()
-  };
+  },
 
   offer: {
   title: getRandomArrayElement(TITLES),
@@ -51,7 +51,7 @@ const advert {
   description: 'Расскажите подробнее о вашем жилье',
 
   photos: getFirst(PHOTOS)
-  };
+  },
 
   location: {
   lat: tempLat,
