@@ -1,12 +1,12 @@
-//function getRandomInRange(min, max) {
-//  if (max <= min) {
-//    return 'Второе число не может быть меньше первого!';
-//  }
-//  if (min < 0 || max < 0) {
-//    return 'Нельзя использовать отрицательное число!';
-//  }
-//  return Math.floor(Math.random() * (max - min + 1)) + min;
-//}
+function getRandomIntegerInRange (min, max) {
+  if (max <= min) {
+    return 'Второе число не может быть меньше первого!';
+  }
+  if (min < 0 || max < 0) {
+    return 'Нельзя использовать отрицательное число!';
+  }
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 //getRandomInRange(0, 3)
 
 
@@ -21,8 +21,8 @@
 //}
 //getRandomFloat(1, 3, 3)
 
-const getRandomIntegerInRange = (elements) => {
-  return elements[_.random(0, elements.length - 1)];
+const getRandomArrayElement = (elements) => {
+  return elements[getRandomIntegerInRange(0, elements.length - 1)];
 };
 const MAX_PRICE = 10000;
 const MAX_ROOMS = 10000;
