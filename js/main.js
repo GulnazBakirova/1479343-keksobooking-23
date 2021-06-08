@@ -17,16 +17,18 @@ const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condit
 const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
+
 const CHECKIN_TIMES = ['12:00','13:00','14:00'];
 const CHECKOUT_TIMES = ['12:00','13:00','14:00'];
 const TITLES = ['Квартира', 'Отель', 'Комната', 'Кемпинг', 'Трейлер'];
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
+
 function chooseAvatar () {
   const i = Math.round(Math.random() * (8 - 1) + 1);
     const link = 'img/avatars/user0' + i + '.png';
     return link;
-}
+};
 
 const author = {
   avatar: chooseAvatar()
@@ -49,11 +51,11 @@ const offer = {
 
   checkout: getRandomArrayElement(CHECKIN_TIMES),
 
-  features: getRandomArrayElement(FEATURES),
+  features: getFirst(FEATURES),
 
   description: 'Расскажите подробнее о вашем жилье',
 
-  photos: getRandomArrayElement(PHOTOS)
+  photos: getFirst(PHOTOS)
 };
 
 const location = {
@@ -70,7 +72,7 @@ function getRandomIntegerInRange (min, max) {
     return 'Нельзя использовать отрицательное число!';
   }
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
 function getRandomFloat(min, max, num) {
  if (max <= min) {
@@ -80,11 +82,21 @@ function getRandomFloat(min, max, num) {
     return 'Нельзя использовать отрицательное число!';
   }
  return (Math.random() * (max - min) + min).toFixed(num);
-}
+};
 
 
 function chooseAvatar () {
   const i = Math.round(Math.random() * (8 - 1) + 1);
     const link = 'img/avatars/user0' + i + '.png';
     return link;
-}
+};
+
+function getFirst(array) {
+ if (!array) {
+       return [];
+     }
+
+const n = getRandomIntegerInRange(0, array.length - 1);
+
+     return array.slice(0, n);
+};
