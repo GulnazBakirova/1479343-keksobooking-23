@@ -86,3 +86,4 @@ const LOCATION = {
   lat: 0,
   lng: 0
 };
+
