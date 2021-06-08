@@ -24,6 +24,9 @@
 const getRandomIntegerInRange = (elements) => {
   return elements[_.random(0, elements.length - 1)];
 };
+const MAX_PRICE = 10000;
+const MAX_ROOMS = 10000;
+const MAX_GUESTS = 10000;
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
@@ -33,23 +36,14 @@ const CHECKOUT_TIMES = ['12:00','13:00','14:00'];
 const TITLES = ['Квартира', 'Отель', 'Комната', 'Кемпинг', 'Трейлер'];
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
-
-function countQuantity (min, max) {
-  const MAX_PRICE = 10000;
-  const MAX_ROOMS = 10000;
-  const MAX_GUESTS = 10000;
-    if (min < 0 || max < 0) {
-    return 'Нельзя использовать отрицательное число!';
-     }
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
-const AUTHOR = {
-  avatar: function () {
-    const i = Math.round(Math.random() * (8 - 1) + 1);
+function chooseAvatar () {
+  const i = Math.round(Math.random() * (8 - 1) + 1);
     const link = 'img/avatars/user0' + i + '.png';
     return link;
-  }
+}
+
+const author = {
+  avatar: chooseAvatar()
 };
 
 const OFFER = {
@@ -82,7 +76,7 @@ const OFFER = {
   photos: []
 };
 
-const LOCATION = {
+const location = {
   lat: 0,
   lng: 0
 };
