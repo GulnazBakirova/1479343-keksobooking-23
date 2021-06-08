@@ -35,7 +35,7 @@ const author = {
 const offer = {
   title: getRandomArrayElement(TITLES),
 
-  address: tempLat + tempLng,
+  address: tempLat + ', ' + tempLng,
 
   price: getRandomIntegerInRange(0, MAX_PRICE),
 
