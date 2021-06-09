@@ -65,40 +65,32 @@ const getRandomArrayElement = (elements) => {
 const tempLat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
 const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
 
-const advert = {
-  author: {
-    avatar: chooseAvatar(),
-  },
+function createAdvert() {
+  return {
+    author: {
+      avatar: chooseAvatar(),
+    },
 
-  offer: {
-    title: getRandomArrayElement(TITLES),
+    offer: {
+      title: getRandomArrayElement(TITLES),
+      address: `${tempLat} + , + ${tempLng}`,
+      price: getRandomIntegerInRange(0, MAX_PRICE),
+      type: getRandomArrayElement(TYPES),
+      rooms: getRandomIntegerInRange(0, MAX_ROOMS),
+      guests: getRandomIntegerInRange(0, MAX_GUESTS),
+      checkin: getRandomArrayElement(CHECKIN_TIMES),
+      checkout: getRandomArrayElement(CHECKOUT_TIMES),
+      features: getFirst(FEATURES),
+      description: 'Расскажите подробнее о вашем жилье',
+      photos: getFirst(PHOTOS),
+    },
 
-    address: `${tempLat} + , + ${tempLng}`,
+    location: {
+      lat: tempLat,
+      lng: tempLng,
+    },
+  };
+}
 
-    price: getRandomIntegerInRange(0, MAX_PRICE),
-
-    type: getRandomArrayElement(TYPES),
-
-    rooms: getRandomIntegerInRange(0, MAX_ROOMS),
-
-    guests: getRandomIntegerInRange(0, MAX_GUESTS),
-
-    checkin: getRandomArrayElement(CHECKIN_TIMES),
-
-    checkout: getRandomArrayElement(CHECKOUT_TIMES),
-
-    features: getFirst(FEATURES),
-
-    description: 'Расскажите подробнее о вашем жилье',
-
-    photos: getFirst(PHOTOS),
-  },
-
-  location: {
-    lat: tempLat,
-    lng: tempLng,
-  },
-};
-
-const similarAdverts = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => advert());
+const similarAdverts = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
 similarAdverts;
