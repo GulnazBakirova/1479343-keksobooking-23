@@ -1,69 +1,18 @@
-const SIMILAR_ADVERT_COUNT = 10;
+import './data.js';
+import './util.js';
 
-const MAX_PRICE = 10000;
-const MAX_ROOMS = 10000;
-const MAX_GUESTS = 10000;
+import {getRandomIntegerInRange, getRandomFloat, getFirst, getRandomArrayElement} from './util.js';
+import {SIMILAR_ADVERT_COUNT, MAX_PRICE, MAX_ROOMS, MAX_GUESTS, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, FEATURES,
+  PHOTOS, CHECKIN_TIMES, CHECKOUT_TIMES, TITLES, TYPES} from './data.js';
 
-const LAT_MIN = 35.65000;
-const LAT_MAX = 35.70000;
-const LNG_MIN = 139.70000;
-const LNG_MAX = 139.80000;
-
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
-];
-
-const CHECKIN_TIMES = ['12:00', '13:00', '14:00'];
-const CHECKOUT_TIMES = ['12:00', '13:00', '14:00'];
-const TITLES = ['Квартира', 'Отель', 'Комната', 'Кемпинг', 'Трейлер'];
-const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-
-
-function getRandomIntegerInRange(min, max) {
-  if (max <= min) {
-    return 'Второе число не может быть меньше первого!';
-  }
-  if (min < 0 || max < 0) {
-    return 'Нельзя использовать отрицательное число!';
-  }
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-
-function getRandomFloat(min, max, num) {
-  if (max <= min) {
-    return 'Второе число не может быть меньше первого!';
-  }
-  if (min < 0 || max < 0) {
-    return 'Нельзя использовать отрицательное число!';
-  }
-  return (Math.random() * (max - min) + min).toFixed(num);
-}
-
+const tempLat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
+const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
 
 function chooseAvatar() {
   const i = Math.round(Math.random() * (8 - 1) + 1);
   const link = `img/avatars/user0 + ${i} + .png`;
   return link;
 }
-
-
-function getFirst(array) {
-  if (!array) {
-    return [];
-  }
-  const n = getRandomIntegerInRange(0, array.length - 1);
-  return array.slice(0, n);
-}
-
-const getRandomArrayElement = (elements) => {
-  elements[getRandomIntegerInRange(0, elements.length - 1)];
-};
-
-const tempLat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
-const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
 
 function createAdvert() {
   return {
@@ -73,7 +22,7 @@ function createAdvert() {
 
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: `${tempLat} + , + ${tempLng}`,
+      address: `${tempLat} , ${tempLng}`,
       price: getRandomIntegerInRange(0, MAX_PRICE),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomIntegerInRange(0, MAX_ROOMS),
