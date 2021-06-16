@@ -142,4 +142,3 @@ photos.forEach(function (photo) {
   photosContainer.appendChild(photoElement);
 });
 cardElement.appendChild(photosContainer);
-
