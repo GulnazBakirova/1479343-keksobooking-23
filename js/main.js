@@ -96,50 +96,70 @@ const similarAdverts = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => crea
 similarAdverts;
 
 
+function createPopup() {
+  return {
+    popupTitle,
+    popupTextAddrress,
+    popupTextPrice,
+    popupType,
+    popupTextCapacity,
+    popupTextTime,
+    popupDescription,
+    featureElement,
+    photoElement
+  };
 
 const popupTitle = document.querySelector('.popup__title');
 popupTitle.textContent = offer.title;
+
 const popupTextAddrress = document.querySelector('.popup__text--address');
 popupTextAddrress.textContent = offer.address;
+
 const popupTextPrice = document.querySelector('.popup__text--price ');
 popupTextPrice.textContent = offer.price + '₽/ночь';
 
+const popupType = document.querySelector('.popup__type ');
+popupType.textContent = offer.type + typesRussian;
+
 const popupTextCapacity = document.querySelector('.popup__text--capacity');
 popupTextCapacity.textContent = offer.rooms + 'комнаты для' + offer.guests + 'гостей';
+
 const popupTextTime = document.querySelector('..popup__text--time ');
 popupTextTime.textContent = 'Заезд после' + offer.checkin + ' , выезд до' + offer.checkout;
 
 const popupDescription = document.querySelector('.popup__description');
 popupDescription.textContent = offer.description;
 
-
-const cardTemplate = document.querySelector('#card')
-  .content
-  .querySelector('.popup');
-
-
-const similarListElement = userDialog.querySelector('.setup-similar-list');
-const cardElement = cardTemplate.cloneNode(true);
-similarListElement.appendChild(cardElement);
-
-
 const featuresContainer = document.createElement('ul');
 featuresContainer.classList.add('popup__features');
 features.forEach(function (features) {
-  const featureElement = document.createElement('li');
-  featureElement.classList.add('popup__feature', 'popup__feature--' + features);
-  featuresContainer.appendChild(featureElement);
-});
+    const featureElement = document.createElement('li');
+    featureElement.classList.add('popup__feature', 'popup__feature--' + features);
+    featuresContainer.appendChild(featureElement);
+  });
 cardElement.appendChild(featuresContainer);
 
 const photosContainer = document.createElement('div');
 photosContainer.classList.add('popup__photos');
 photos.forEach(function (photo) {
-  const photoElement = document.createElement('img');
-  photoElement.classList.add('popup__photo');
-  photoElement.alt = 'Фотография жилья';
-  photoElement.src = author.avatar;
-  photosContainer.appendChild(photoElement);
-});
+    const photoElement = document.createElement('img');
+    photoElement.classList.add('popup__photo');
+    photoElement.alt = 'Фотография жилья';
+    photoElement.src = author.avatar;
+    photosContainer.appendChild(photoElement);
+  });
 cardElement.appendChild(photosContainer);
 
+const typesRussian = {
+    palace: 'дворец',
+    flat: 'квартира',
+    house: 'дома',
+    bungalow: 'бунгало',
+    hotel: 'отель'
+};
+
+
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+
+const cardElement = cardTemplate.cloneNode(true);
+cardTemplate.appendChild(cardElement);
