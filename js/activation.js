@@ -20,7 +20,7 @@ const removeFormListeners = function () {
 
 const activateForm = function () {
   adForm.classList.remove('ad-form--disabled');
-  adFormFieldsets.forEach(function (ab) {
+  adFormFieldsets.forEach((ab) => {
     ab.disabled = false;
   });
   adFormHeader.disabled = false;
@@ -29,7 +29,7 @@ const activateForm = function () {
 
 const deactivateForm = function () {
   adForm.reset();
-  adFormFieldsets.forEach(function (ab) {
+  adFormFieldsets.forEach((ab) => {
     ab.disabled = true;
   });
   adFormHeader.disabled = true;

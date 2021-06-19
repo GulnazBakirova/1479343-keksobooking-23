@@ -15,23 +15,13 @@ import {
   TYPES
 } from './data.js';
 
-function translateType(type) {
-  switch (type) {
-    case 'flat':
-      return 'Квартира';
-    case 'bungalow':
-      return 'Бунгало';
-    case 'house':
-      return 'Дом';
-    case 'hotel':
-      return 'Отель';
-    case 'palace':
-      return 'Дворец';
-    default:
-      return type;
-  }
-}
-
+const typesRussian = {
+  palace: 'дворец',
+  flat: 'квартира',
+  house: 'дома',
+  bungalow: 'бунгало',
+  hotel: 'отель',
+};
 
 function getRandomIntegerInRange(min, max) {
   if (max <= min) {
@@ -77,6 +67,9 @@ const getRandomArrayElement = (elements) => {
 const tempLat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
 const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
 
+let author;
+let cardElement;
+
 function createAdvert() {
   return {
     author: {
@@ -110,7 +103,7 @@ similarAdverts;
 
 function createPopup(offer) {
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-  const cardElement = cardTemplate.cloneNode(true);
+  cardElement = cardTemplate.cloneNode(true);
 
   const popup = cardElement.querySelector('.popup');
 
@@ -124,7 +117,7 @@ function createPopup(offer) {
   popupTextPrice.textContent = `${offer.price} ₽/ночь`;
 
   const popupType = popup.querySelector('.popup__type ');
-  popupType.textContent = offer.type + translateType;
+  popupType.textContent = offer.type + typesRussian;
 
   const popupTextCapacity = popup.querySelector('.popup__text--capacity');
   popupTextCapacity.textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
@@ -138,17 +131,17 @@ function createPopup(offer) {
 
   const featuresElement = popup.getElementById('ul');
   const featuresFragment = document.createDocumentFragment();
-  FEATURES.forEach(function (features) {
+  FEATURES.forEach((features) => {
     const li = document.createElement('li');
-    li.classList.add('popup__feature', 'popup__feature--' + features);
-    li.textContent = feature;
+    li.classList.add(`popup__feature, popup__feature-- ${features}`);
+    li.textContent = features;
     featuresFragment.appendChild(li);
   });
   featuresElement.appendChild(featuresFragment);
 
   const photosElement = popup.getElementById('div');
   const photosFragment = document.createDocumentFragment();
-  FEATURES.forEach(function (photo) {
+  PHOTOS.forEach(() => {
     const img = document.createElement('img');
     img.classList.add('popup__photo');
     img.alt = 'Фотография жилья';
@@ -159,7 +152,8 @@ function createPopup(offer) {
 }
 
 
-const similarListFragment = document.createDocumentFragment();
+const mapCanvas = document.getElementById('map-canvas');
+
 
 createPopup(cardElement);
-similarListFragment.appendChild(cardElement);
+mapCanvas.appendChild(cardElement);
