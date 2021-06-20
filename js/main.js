@@ -98,7 +98,6 @@ function createAdvert() {
 }
 
 const similarAdverts = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
-similarAdverts;
 
 
 function createPopup(offer) {
@@ -131,7 +130,7 @@ function createPopup(offer) {
 
   const featuresElement = popup.getElementById('ul');
   const featuresFragment = document.createDocumentFragment();
-  FEATURES.forEach((features) => {
+  features.forEach((features) => {
     const li = document.createElement('li');
     li.classList.add(`popup__feature, popup__feature-- ${features}`);
     li.textContent = features;
@@ -141,7 +140,7 @@ function createPopup(offer) {
 
   const photosElement = popup.getElementById('div');
   const photosFragment = document.createDocumentFragment();
-  PHOTOS.forEach(() => {
+  photos.forEach(() => {
     const img = document.createElement('img');
     img.classList.add('popup__photo');
     img.alt = 'Фотография жилья';
@@ -152,8 +151,7 @@ function createPopup(offer) {
 }
 
 
-const mapCanvas = document.getElementById('map-canvas');
+const mapCanvas = document.getElementById('#map-canvas');
 
 
-createPopup(cardElement);
-mapCanvas.appendChild(cardElement);
+mapCanvas.appendChild(createPopup(similarAdverts[0]));
