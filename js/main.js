@@ -130,7 +130,7 @@ function createPopup(offer) {
 
   const featuresElement = popup.getElementById('ul');
   const featuresFragment = document.createDocumentFragment();
-  features.forEach((features) => {
+  offer.features.forEach((features) => {
     const li = document.createElement('li');
     li.classList.add(`popup__feature, popup__feature-- ${features}`);
     li.textContent = features;
@@ -140,7 +140,7 @@ function createPopup(offer) {
 
   const photosElement = popup.getElementById('div');
   const photosFragment = document.createDocumentFragment();
-  photos.forEach(() => {
+  offer.photos.forEach(() => {
     const img = document.createElement('img');
     img.classList.add('popup__photo');
     img.alt = 'Фотография жилья';
