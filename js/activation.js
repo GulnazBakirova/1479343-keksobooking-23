@@ -1,7 +1,7 @@
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = document.querySelectorAll('.ad-form__element');
 const mapForm = document.querySelector('.map__filters');
-const mapFilters = mapForm.querySelector('.map__filter');
+const mapFilters = mapForm.querySelectorAll('.map__filter');
 
 const activateAdForm = function () {
   adForm.classList.remove('ad-form--disabled');
