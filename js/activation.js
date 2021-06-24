@@ -1,40 +1,37 @@
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = document.querySelectorAll('.ad-form__element');
-const adFormHeader = document.querySelector('.ad-form-header');
-const invalidElements = [];
-const highlightInvalidElement = function (item) {
-  invalidElements.push(item);
-  item.classList.add('invalid-element');
-};
-const onFormInvalid = function (evt) {
-  highlightInvalidElement(evt.target);
-};
+const mapForm = document.querySelector('.map__filters');
+const mapFilters = mapForm.querySelectorAll('.map__filter');
 
-const addFormListeners = function () {
-  adForm.addEventListener('invalid', onFormInvalid, true);
-};
-const removeFormListeners = function () {
-  adForm.removeEventListener('invalid', onFormInvalid, true);
-};
-
-
-const activateForm = function () {
+const activateAdForm = function () {
   adForm.classList.remove('ad-form--disabled');
-  adFormFieldsets.forEach((ab) => {
-    ab.disabled = false;
+  adFormFieldsets.forEach((element) => {
+    element.disabled = false;
   });
-  adFormHeader.disabled = false;
-  addFormListeners();
 };
 
-const deactivateForm = function () {
+const deactivateAdForm = function () {
   adForm.reset();
-  adFormFieldsets.forEach((ab) => {
-    ab.disabled = true;
+  adFormFieldsets.forEach((element) => {
+    element.disabled = true;
   });
-  adFormHeader.disabled = true;
   adForm.classList.add('ad-form--disabled');
-  removeFormListeners();
 };
 
-deactivateForm();
+const activateMapForm = function () {
+  mapForm.classList.remove('map-form--disabled');
+  mapFilters.forEach((element) => {
+    element.disabled = false;
+  });
+};
+
+const deactivateMapForm = function () {
+  mapForm.reset();
+  mapFilters.forEach((element) => {
+    element.disabled = true;
+  });
+  mapForm.classList.add('map-form--disabled');
+};
+
+deactivateAdForm();
+deactivateMapForm();
