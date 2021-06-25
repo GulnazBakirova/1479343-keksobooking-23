@@ -99,7 +99,6 @@ function createAdvert() {
 
 const similarAdverts = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
 
-
 function createPopup(advert) {
   const cardTemplate = document.querySelector('#card');
   cardElement = cardTemplate.cloneNode(true);
