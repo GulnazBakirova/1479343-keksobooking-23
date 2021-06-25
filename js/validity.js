@@ -12,6 +12,8 @@ const buildingMinPrice = {
 
 const submitButton = document.querySelector('.ad-form__submit');
 
+const typeInput = document.querySelector('#type');
+
 const adTitle = document.querySelector('#title');
 const adPrice = document.querySelector('#price');
 
@@ -58,3 +60,4 @@ const checkValidation = function () {
 };
 
 submitButton.addEventListener('click', checkValidation);
+typeInput.addEventListener('change', onTypeInputChange);

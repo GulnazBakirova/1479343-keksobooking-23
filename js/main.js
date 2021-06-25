@@ -18,7 +18,7 @@ import {
 const typesRussian = {
   palace: 'дворец',
   flat: 'квартира',
-  house: 'дома',
+  house: 'дом',
   bungalow: 'бунгало',
   hotel: 'отель',
 };
@@ -116,7 +116,7 @@ function createPopup(advert) {
   popupTextPrice.textContent = `${advert.offer.price} ₽/ночь`;
 
   const popupType = popup.querySelector('.popup__type ');
-  popupType.textContent = advert.offer.type + typesRussian['hotel'];
+  popupType.textContent = advert.offer.type + ' ' + typesRussian[advert.offer.type];
 
   const popupTextCapacity = popup.querySelector('.popup__text--capacity');
   popupTextCapacity.textContent = `${advert.offer.rooms} комнаты для ${advert.offer.guests} гостей`;
