@@ -23,14 +23,14 @@
 
       <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
-        <form action="https://23.javascript.pages.academy/keksobooking" method="post" enctype="multipart/form-data" class="map__filters" autocomplete="off">
+        <form action="#" class="map__filters" autocomplete="off">
           <select name="housing-type" id="housing-type" class="map__filter">
             <option value="any" selected>Любой тип жилья</option>
             <option value="bungalow">Бунгало</option>
-            <option value="flat">Квартира</option>
-            <option value="hotel">Отель</option>
-            <option value="house">Дом</option>
-            <option value="palace">Дворец</option>
+            <option value="flat" min="1000">Квартира</option>
+            <option value="hotel" min="3000">Отель</option>
+            <option value="house" min="5000">Дом</option>
+            <option value="palace" min="10000">Дворец</option>
           </select>
           <select name="housing-price" id="housing-price" class="map__filter">
             <option value="any" selected>Любая</option>
@@ -86,7 +86,7 @@
           </div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
-          <label class="ad-form__label" for="title">Заголовок объявления</label>
+          <label class="ad-form__label" for="title" >Заголовок объявления</label>
           <input id="title" name="title" type="text" required minlength="30" maxlength="100" placeholder="Милая, уютная квартирка в центре Токио">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
@@ -105,7 +105,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" required placeholder="5000">
+          <input id="price" name="price" type="number" required max="1000000" placeholder="5000">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -230,8 +230,8 @@
     </div>
   </template>
 <script type="module" src="js/main.js"></script>
-<script type="module" src="js/util.js"></script>
 <script type="module" src="js/data.js"></script>
 <script type="module" src="js/activation.js"></script>
+<script type="module" src="js/validity.js"></script>
 </body>
 </html>
