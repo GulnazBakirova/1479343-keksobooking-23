@@ -115,7 +115,7 @@ function createPopup(advert) {
   popupTextPrice.textContent = `${advert.offer.price} ₽/ночь`;
 
   const popupType = popup.querySelector('.popup__type ');
-  popupType.textContent = advert.offer.type + ' ' + typesRussian[advert.offer.type];
+  popupType.textContent = `${advert.offer.type}  ${typesRussian[advert.offer.type]}`;
 
   const popupTextCapacity = popup.querySelector('.popup__text--capacity');
   popupTextCapacity.textContent = `${advert.offer.rooms} комнаты для ${advert.offer.guests} гостей`;
@@ -132,7 +132,7 @@ function createPopup(advert) {
   const featuresFragment = document.createDocumentFragment();
   advert.offer.features.forEach((feature) => {
     const li = document.createElement('li');
-    li.classList.add(`popup__feature`,`popup__feature--` + feature);
+    li.classList.add('popup__feature','popup__feature--' + feature);
     featuresFragment.appendChild(li);
   });
   featuresElement.appendChild(featuresFragment);

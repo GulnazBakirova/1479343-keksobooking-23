@@ -3,12 +3,16 @@ const MAX_TITLE_LENGTH = 100;
 
 const MAX_PRICE_LENGTH = 1000000;
 
-const buildingMinPrice = {
-  BUNGALO: 0,
+const houseTypeMinPrice = {
+  BUNGALOW: 0,
   FLAT: 1000,
+  HOTEL: 3000,
   HOUSE: 5000,
   PALACE: 10000,
 };
+
+const timeInInput = document.querySelector('#timein');
+const timeOutInput = document.querySelector('#timeout');
 
 const submitButton = document.querySelector('.ad-form__submit');
 
@@ -43,9 +47,17 @@ adPrice.addEventListener('input', () => {
 });
 
 const onTypeInputChange = function (evt) {
-  const minPrice = buildingMinPrice[evt.target.value.toUpperCase()];
+  const minPrice = houseTypeMinPrice[evt.target.value.toUpperCase()];
   adPrice.min = minPrice;
   adPrice.placeholder = minPrice.toString();
+};
+
+const onTimeInInputChange = function (evt) {
+  timeOutInput.value = evt.target.value;
+};
+
+const onTimeOutInputChange = function (evt) {
+  timeInInput.value = evt.target.value;
 };
 
 const checkValidation = function () {
@@ -61,3 +73,5 @@ const checkValidation = function () {
 
 submitButton.addEventListener('click', checkValidation);
 typeInput.addEventListener('change', onTypeInputChange);
+timeInInput.addEventListener('change', onTimeInInputChange);
+timeOutInput.addEventListener('change', onTimeOutInputChange);
