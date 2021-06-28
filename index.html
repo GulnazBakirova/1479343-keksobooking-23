@@ -19,7 +19,11 @@
     <section class="map">
 
       <!-- Блок для вставки карты -->
-      <div class="map__canvas" id="map-canvas"></div>
+      <div class="map__canvas" id="map-canvas" style="width: 1200px; height: 300px;"></div>
+      <button id="reset" type="button">Вернуть метку на место</button>
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
 
       <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
@@ -27,10 +31,10 @@
           <select name="housing-type" id="housing-type" class="map__filter">
             <option value="any" selected>Любой тип жилья</option>
             <option value="bungalow">Бунгало</option>
-            <option value="flat" min="1000">Квартира</option>
-            <option value="hotel" min="3000">Отель</option>
-            <option value="house" min="5000">Дом</option>
-            <option value="palace" min="10000">Дворец</option>
+            <option value="flat">Квартира</option>
+            <option value="hotel">Отель</option>
+            <option value="house">Дом</option>
+            <option value="palace">Дворец</option>
           </select>
           <select name="housing-price" id="housing-price" class="map__filter">
             <option value="any" selected>Любая</option>
@@ -229,6 +233,7 @@
       <button type="button" class="error__button">Попробовать снова</button>
     </div>
   </template>
+<script type="module" src="js/map.js"></script>
 <script type="module" src="js/main.js"></script>
 <script type="module" src="js/data.js"></script>
 <script type="module" src="js/activation.js"></script>
