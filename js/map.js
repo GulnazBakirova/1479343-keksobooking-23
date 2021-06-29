@@ -1,9 +1,13 @@
-import {createAdvert, createPopup} from './main.js';
+/*import {createAdvert, createPopup} from './main.js';*/
 
 const addressInput = document.querySelector('#address');
 const resetButton = document.querySelector('#reset');
 
+
 const map = L.map('map-canvas')
+  .on('load', () => {
+    addressInput.value = 35.6895, 139.69171;
+  })
   .setView({
     lat: 35.6895,
     lng: 139.69171,
@@ -12,7 +16,7 @@ const map = L.map('map-canvas')
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
 
@@ -60,7 +64,7 @@ const refreshMap = () => {
   );
 };
 
-const getOffers = offers => offers.map(item => createAdvert(item));
+/*const getOffers = offers => offers.map(item => createAdvert(item));
 
 const getMarkers = (pins) => {
   return pins.slice(0, 10).map(pin => L.marker(
@@ -77,7 +81,7 @@ const getMarkers = (pins) => {
       keepInView: true,
     },
   ));
-};
+};*/
 
 const showPins = (markers) => markers.forEach(marker => marker.addTo(map));
 

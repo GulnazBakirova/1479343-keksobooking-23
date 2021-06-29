@@ -15,7 +15,7 @@ import {
   TYPES
 } from './data.js';
 
-const typesRussian = {
+/*const typesRussian = {
   palace: 'дворец',
   flat: 'квартира',
   house: 'дом',
@@ -157,4 +157,4 @@ const mapCanvas = document.querySelector('#map-canvas');
 const x = createPopup(similarAdverts[0]);
 mapCanvas.appendChild(x);
 
-export {createAdvert, createPopup};
+export {createAdvert, createPopup};*/
