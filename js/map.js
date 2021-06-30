@@ -1,4 +1,4 @@
-/*import {createAdvert, createPopup} from './main.js';*/
+import {createAdvert, createPopup, offer} from './main.js';
 
 const addressInput = document.querySelector('#address');
 const resetButton = document.querySelector('#reset');
@@ -6,7 +6,7 @@ const resetButton = document.querySelector('#reset');
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    addressInput.value = 35.6895, 139.69171;
+    addressInput.value = '35.6895, 139.69171';
   })
   .setView({
     lat: 35.6895,
@@ -34,55 +34,41 @@ const mainPinMarker = L.marker(
   {
     draggable: true,
     icon: mainPinIcon,
-  },
-);
-
-const icon = L.icon({
-  iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
-
-mainPinMarker.addTo(map);
+  }
+).addTo(map);
 
 mainPinMarker.on('moveend', (e) => {
   const coordinates = e.target.getLatLng();
   addressInput.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
 });
 
-const refreshMap = () => {
-  map.setView(35.6895, 139.69171, 13);
-  const startLatLng = new L.LatLng(35.6895, 139.69171);
-  mainPinMarker.setLatLng(startLatLng);
+const markerGroup = L.layerGroup().addTo(map);
 
-  getData(
-    (offers) => {
-      const structuredOffers = getOffers(offers);
-      const markers = getMarkers(structuredOffers);
-      showPins(markers);
-    },
-  );
-};
+const createMarker = (point) => {
+  const {lat, lng} = point;
 
-/*const getOffers = offers => offers.map(item => createAdvert(item));
+  const icon = L.icon({
+    iconUrl: './img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
 
-const getMarkers = (pins) => {
-  return pins.slice(0, 10).map(pin => L.marker(
+  const marker = L.marker(
     {
-      lat: pin.lat,
-      lng: pin.lng,
+      lat,
+      lng,
     },
     {
       icon,
     },
-  ).bindPopup(
-    createPopup(pin),
-    {
-      keepInView: true,
-    },
-  ));
-};*/
+  );
 
-const showPins = (markers) => markers.forEach(marker => marker.addTo(map));
-
-const hidePins = (markers) => markers.forEach(marker => marker.remove());
+  marker
+    .addTo(markerGroup)
+    .bindPopup(
+      createPopup(point),
+      {
+        keepInView: true,
+      },
+    );
+};

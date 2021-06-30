@@ -15,7 +15,7 @@ import {
   TYPES
 } from './data.js';
 
-/*const typesRussian = {
+const typesRussian = {
   palace: 'дворец',
   flat: 'квартира',
   house: 'дом',
@@ -97,6 +97,31 @@ function createAdvert() {
   };
 }
 
+export const offer = {
+  author: {
+      avatar: chooseAvatar(),
+    },
+
+    offer: {
+      title: getRandomArrayElement(TITLES),
+      address: `${tempLat} , ${tempLng}`,
+      price: getRandomIntegerInRange(0, MAX_PRICE),
+      type: getRandomArrayElement(TYPES),
+      rooms: getRandomIntegerInRange(0, MAX_ROOMS),
+      guests: getRandomIntegerInRange(0, MAX_GUESTS),
+      checkin: getRandomArrayElement(CHECKIN_TIMES),
+      checkout: getRandomArrayElement(CHECKOUT_TIMES),
+      features: getFirst(FEATURES),
+      description: 'Расскажите подробнее о вашем жилье',
+      photos: getFirst(PHOTOS),
+    },
+
+    location: {
+      lat: tempLat,
+      lng: tempLng,
+    },
+  };
+
 const similarAdverts = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
 
 function createPopup(advert) {
@@ -157,4 +182,4 @@ const mapCanvas = document.querySelector('#map-canvas');
 const x = createPopup(similarAdverts[0]);
 mapCanvas.appendChild(x);
 
-export {createAdvert, createPopup};*/
+export {createAdvert, createPopup};
