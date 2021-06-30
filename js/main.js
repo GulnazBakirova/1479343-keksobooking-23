@@ -15,7 +15,7 @@ import {
   TYPES
 } from './data.js';
 
-const typesRussian = {
+export const typesRussian = {
   palace: 'дворец',
   flat: 'квартира',
   house: 'дом',
@@ -70,7 +70,7 @@ const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
 let author;
 let cardElement;
 
-function createAdvert() {
+export function createAdvert() {
   return {
     author: {
       avatar: chooseAvatar(),
@@ -97,8 +97,8 @@ function createAdvert() {
   };
 }
 
-export const offer = {
-  author: {
+export const offers = {
+      author: {
       avatar: chooseAvatar(),
     },
 
@@ -120,7 +120,7 @@ export const offer = {
       lat: tempLat,
       lng: tempLng,
     },
-  };
+}
 
 const similarAdverts = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
 
@@ -181,5 +181,3 @@ const mapCanvas = document.querySelector('#map-canvas');
 
 const x = createPopup(similarAdverts[0]);
 mapCanvas.appendChild(x);
-
-export {createAdvert, createPopup};
