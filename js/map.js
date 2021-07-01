@@ -1,9 +1,10 @@
-import {createAdvert, typesRussian, offers} from './main.js';
+import {typesRussian, similarAdverts} from './main.js';
 
 const addressInput = document.querySelector('#address');
 const resetButton = document.querySelector('#reset');
 
-const createCustomPopup = (point) => {
+
+const createCustomPopup = (advert) => {
   const cardTemplate = document.querySelector('#card');
   const cardElement = cardTemplate.cloneNode(true);
 
@@ -95,8 +96,8 @@ mainPinMarker.on('moveend', (e) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (point) => {
-  const {lat, lng} = point;
+const createMarker = (advert) => {
+  const {lat, lng} = advert;
 
   const icon = L.icon({
     iconUrl: './img/pin.svg',
@@ -117,13 +118,13 @@ const createMarker = (point) => {
   marker
     .addTo(markerGroup)
     .bindPopup(
-      createCustomPopup(point),
+      createCustomPopup(advert),
       {
         keepInView: true,
       },
     );
 };
 
-Object.keys(offers).forEach(function (point){
-    createMarker(point);
+similarAdverts.forEach(function (ad) {
+  createMarker(ad);
 });

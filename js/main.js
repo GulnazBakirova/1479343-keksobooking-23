@@ -70,7 +70,7 @@ const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
 let author;
 let cardElement;
 
-export function createAdvert() {
+function createAdvert() {
   return {
     author: {
       avatar: chooseAvatar(),
@@ -97,32 +97,7 @@ export function createAdvert() {
   };
 }
 
-export const offers = {
-      author: {
-      avatar: chooseAvatar(),
-    },
-
-    offer: {
-      title: getRandomArrayElement(TITLES),
-      address: `${tempLat} , ${tempLng}`,
-      price: getRandomIntegerInRange(0, MAX_PRICE),
-      type: getRandomArrayElement(TYPES),
-      rooms: getRandomIntegerInRange(0, MAX_ROOMS),
-      guests: getRandomIntegerInRange(0, MAX_GUESTS),
-      checkin: getRandomArrayElement(CHECKIN_TIMES),
-      checkout: getRandomArrayElement(CHECKOUT_TIMES),
-      features: getFirst(FEATURES),
-      description: 'Расскажите подробнее о вашем жилье',
-      photos: getFirst(PHOTOS),
-    },
-
-    location: {
-      lat: tempLat,
-      lng: tempLng,
-    },
-}
-
-const similarAdverts = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
+export const similarAdverts = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
 
 function createPopup(advert) {
   const cardTemplate = document.querySelector('#card');
