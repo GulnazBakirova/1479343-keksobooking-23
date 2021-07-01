@@ -1,8 +1,72 @@
-import {typesRussian, similarAdverts} from './main.js';
+import {
+  typesRussian,
+  similarAdverts
+} from './main.js';
+
+import {
+  getData
+} from './api.js';
 
 const addressInput = document.querySelector('#address');
 const resetButton = document.querySelector('#reset');
+const errorGetData = document.querySelector('.error-data');
+const mapFilters = document.querySelector('.map__filters');
+const childrenOfFilter = [...mapFilters.children];
 
+const isEscEvent = (e) => {
+  return e.key === 'Escape' || e.key === 'Esc';
+};
+
+const closeModal = (response) => {
+  response.classList.add('hidden');
+};
+
+const creteOnModalCloseClick = (ab) => {
+  return (e) => {
+    e.preventDefault();
+    ab();
+  };
+};
+
+const createOnModalEscKeydown = (ab) => {
+  return (e) => {
+    if (isEscEvent(e)) {
+      e.preventDefault();
+      ab();
+    }
+  };
+};
+
+const openModal = (response) => {
+  const clickCloseModalHandler = creteOnModalCloseClick(() => {
+    document.removeEventListener('keydown', keydownCloseModalHandler, true);
+    response.removeEventListener('click', clickCloseModalHandler, true);
+    closeModal(response);
+  });
+
+  const keydownCloseModalHandler = createOnModalEscKeydown(() => {
+    document.removeEventListener('keydown', keydownCloseModalHandler, true);
+    response.removeEventListener('click', clickCloseModalHandler, true);
+    closeModal(response);
+  });
+
+  response.classList.remove('hidden');
+
+  document.addEventListener('keydown', keydownCloseModalHandler, true);
+  response.addEventListener('click', clickCloseModalHandler, true);
+};
+
+const changeFilterState = (node, condition) => {
+  node.forEach(element => {
+    element.disabled = condition;
+  });
+
+  if (condition) {
+    mapFilters.classList.add('map__filters--disabled');
+  } else {
+    mapFilters.classList.remove('map__filters--disabled');
+  }
+};
 
 const createCustomPopup = (advert) => {
   const cardTemplate = document.querySelector('#card');
@@ -36,7 +100,7 @@ const createCustomPopup = (advert) => {
   const featuresFragment = document.createDocumentFragment();
   advert.offer.features.forEach((feature) => {
     const li = document.createElement('li');
-    li.classList.add('popup__feature','popup__feature--' + feature);
+    li.classList.add('popup__feature', 'popup__feature--' + feature);
     featuresFragment.appendChild(li);
   });
   featuresElement.appendChild(featuresFragment);
@@ -54,7 +118,7 @@ const createCustomPopup = (advert) => {
   photosElement.appendChild(photosFragment);
 
   return cardElement;
-}
+};
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -66,9 +130,8 @@ const map = L.map('map-canvas')
   }, 16);
 
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
 
@@ -78,16 +141,13 @@ const mainPinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-const mainPinMarker = L.marker(
-  {
-    lat: 35.6895,
-    lng: 139.69171,
-  },
-  {
-    draggable: true,
-    icon: mainPinIcon,
-  },
-).addTo(map);
+const mainPinMarker = L.marker({
+  lat: 35.6895,
+  lng: 139.69171,
+}, {
+  draggable: true,
+  icon: mainPinIcon,
+}, ).addTo(map);
 
 mainPinMarker.on('moveend', (e) => {
   const coordinates = e.target.getLatLng();
@@ -97,7 +157,10 @@ mainPinMarker.on('moveend', (e) => {
 const markerGroup = L.layerGroup().addTo(map);
 
 const createMarker = (advert) => {
-  const {lat, lng} = advert;
+  const {
+    lat,
+    lng
+  } = advert.location;
 
   const icon = L.icon({
     iconUrl: './img/pin.svg',
@@ -105,21 +168,17 @@ const createMarker = (advert) => {
     iconAnchor: [20, 40],
   });
 
-  const marker = L.marker(
-    {
-      lat,
-      lng,
-    },
-    {
-      icon,
-    },
-  );
+  const marker = L.marker({
+    lat,
+    lng,
+  }, {
+    icon,
+  });
 
   marker
     .addTo(markerGroup)
     .bindPopup(
-      createCustomPopup(advert),
-      {
+      createCustomPopup(advert), {
         keepInView: true,
       },
     );
@@ -128,3 +187,29 @@ const createMarker = (advert) => {
 similarAdverts.forEach(function (ad) {
   createMarker(ad);
 });
+
+
+const refreshMap = () => {
+  map.setView(35.6895, 139.69171, 13);
+  const startLatLng = new L.LatLng(35.6895, 139.69171);
+  mainPinMarker.setLatLng(startLatLng);
+
+  getData(
+    (offers) => {
+      const structuredOffers = getOffers(offers);
+      const markers = createMarker(structuredOffers);
+      showPins(markers);
+    },
+    () => {
+      openModal(errorGetData);
+      changeFilterState(childrenOfFilter, true);
+    },
+  );
+};
+
+
+const getOffers = offers => offers.map(item => createCustomPopup(item));
+
+
+const showPins = (markers) => markers.forEach(marker => marker.addTo(map));
+const hidePins = (markers) => markers.forEach(marker => marker.remove());
