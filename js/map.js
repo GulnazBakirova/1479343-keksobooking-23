@@ -8,7 +8,6 @@ import {
 } from './api.js';
 
 const addressInput = document.querySelector('#address');
-const resetButton = document.querySelector('#reset');
 const errorGetData = document.querySelector('.error-data');
 const mapFilters = document.querySelector('.map__filters');
 const childrenOfFilter = [...mapFilters.children];
@@ -69,10 +68,9 @@ const changeFilterState = (node, condition) => {
 };
 
 const createCustomPopup = (advert) => {
-  const cardTemplate = document.querySelector('#card');
-  const cardElement = cardTemplate.cloneNode(true);
+  const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-  const popup = cardElement.content.querySelector('.popup');
+  const popup = cardTemplate.cloneNode(true);
 
   const popupTitle = popup.querySelector('.popup__title');
   popupTitle.textContent = advert.offer.title;
@@ -113,11 +111,13 @@ const createCustomPopup = (advert) => {
     img.classList.add('popup__photo');
     img.alt = 'Фотография жилья';
     img.src = photo;
+    img.width = '45px';
+    img.height = '40px';
     photosFragment.appendChild(img);
   });
   photosElement.appendChild(photosFragment);
 
-  return cardElement;
+  return popup;
 };
 
 const map = L.map('map-canvas')
@@ -159,7 +159,7 @@ const markerGroup = L.layerGroup().addTo(map);
 const createMarker = (advert) => {
   const {
     lat,
-    lng
+    lng,
   } = advert.location;
 
   const icon = L.icon({
@@ -187,29 +187,3 @@ const createMarker = (advert) => {
 similarAdverts.forEach(function (ad) {
   createMarker(ad);
 });
-
-
-const refreshMap = () => {
-  map.setView(35.6895, 139.69171, 13);
-  const startLatLng = new L.LatLng(35.6895, 139.69171);
-  mainPinMarker.setLatLng(startLatLng);
-
-  getData(
-    (offers) => {
-      const structuredOffers = getOffers(offers);
-      const markers = createMarker(structuredOffers);
-      showPins(markers);
-    },
-    () => {
-      openModal(errorGetData);
-      changeFilterState(childrenOfFilter, true);
-    },
-  );
-};
-
-
-const getOffers = offers => offers.map(item => createCustomPopup(item));
-
-
-const showPins = (markers) => markers.forEach(marker => marker.addTo(map));
-const hidePins = (markers) => markers.forEach(marker => marker.remove());
