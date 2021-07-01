@@ -19,6 +19,14 @@ function getRandomFloat(min, max, num) {
   return (Math.random() * (max - min) + min).toFixed(num);
 }
 
+
+function chooseAvatar() {
+  const i = Math.round(Math.random() * (8 - 1) + 1);
+  const link = `img/avatars/user0 + ${i} + .png`;
+  return link;
+}
+
+
 function getFirst(array) {
   if (!array) {
     return [];
@@ -28,7 +36,7 @@ function getFirst(array) {
 }
 
 const getRandomArrayElement = (elements) => {
-  elements[getRandomIntegerInRange(0, elements.length - 1)];
+  return elements[getRandomIntegerInRange(0, elements.length - 1)];
 };
 
-export {getRandomIntegerInRange, getRandomFloat, getFirst, getRandomArrayElement};
+export {getRandomIntegerInRange, getRandomFloat, chooseAvatar, getFirst, getRandomArrayElement};

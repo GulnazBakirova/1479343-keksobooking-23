@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="leaflet/leaflet.css">
   <title>Кексобукинг</title>
 </head>
 <body>
@@ -15,11 +16,17 @@
       <img src="img/keksobooking.svg" alt="Keksobooking. Кексы по соседству" width="215" height="45">
     </div>
 
+    <div class="error-data hidden">
+      <p class="error-data__message">Ошибка получения данных с сервера</p>
+      <button type="button" class="error-data__button">OK</button>
+    </div>
+
     <!-- Карта объявлений -->
     <section class="map">
 
       <!-- Блок для вставки карты -->
-      <div class="map__canvas" id="map-canvas"></div>
+      <div class="map__canvas" id="map-canvas" style="width: 1200px; height: 500px;"></div>
+      <button id="reset" type="button">Вернуть метку на место</button>
 
       <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
@@ -27,10 +34,10 @@
           <select name="housing-type" id="housing-type" class="map__filter">
             <option value="any" selected>Любой тип жилья</option>
             <option value="bungalow">Бунгало</option>
-            <option value="flat" min="1000">Квартира</option>
-            <option value="hotel" min="3000">Отель</option>
-            <option value="house" min="5000">Дом</option>
-            <option value="palace" min="10000">Дворец</option>
+            <option value="flat">Квартира</option>
+            <option value="hotel">Отель</option>
+            <option value="house">Дом</option>
+            <option value="palace">Дворец</option>
           </select>
           <select name="housing-price" id="housing-price" class="map__filter">
             <option value="any" selected>Любая</option>
@@ -90,7 +97,7 @@
           <input id="title" name="title" type="text" required minlength="30" maxlength="100" placeholder="Милая, уютная квартирка в центре Токио">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
-          <label class="ad-form__label" for="address">Адрес (координаты)</label>
+          <label class="ad-form__label" for="address" value="35.68950, 139.69171" required readonly>Адрес (координаты)</label>
           <input id="address" name="address" type="text">
         </fieldset>
         <fieldset class="ad-form__element">
@@ -229,8 +236,9 @@
       <button type="button" class="error__button">Попробовать снова</button>
     </div>
   </template>
+<script src="leaflet/leaflet.js"></script>
+<script type="module" src="js/map.js"></script>
 <script type="module" src="js/main.js"></script>
-<script type="module" src="js/data.js"></script>
 <script type="module" src="js/activation.js"></script>
 <script type="module" src="js/validity.js"></script>
 </body>

@@ -32,6 +32,3 @@ const deactivateMapForm = function () {
   });
   mapForm.classList.add('map-form--disabled');
 };
-
-deactivateAdForm();
-deactivateMapForm();
