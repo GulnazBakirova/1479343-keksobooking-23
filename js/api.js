@@ -1,5 +1,7 @@
-const ERROR_POST_MESSAGE = 'Не удалось отправить форму. Попробуйте ещё раз.';
-const ERROR_GET_MESSAGE = 'Ошибка загрузки данных с сервера.';
+import {
+  ERROR_POST_MESSAGE,
+  ERROR_GET_MESSAGE
+} from './data.js';
 
 export const getData = (onSuccess, onFail) => {
   fetch('https://22.javascript.pages.academy/keksobooking/data')
@@ -16,25 +18,5 @@ export const getData = (onSuccess, onFail) => {
     })
     .catch(() => {
       onFail(ERROR_GET_MESSAGE);
-    });
-};
-
-export const sendData = (onSuccess, onFail, body) => {
-  fetch(
-    'https://22.javascript.pages.academy/keksobooking',
-    {
-      method: 'POST',
-      body,
-    },
-  )
-    .then((response) => {
-      if (response.ok) {
-        onSuccess();
-      } else {
-        onFail(ERROR_POST_MESSAGE);
-      }
-    })
-    .catch(() => {
-      onFail(ERROR_POST_MESSAGE);
     });
 };

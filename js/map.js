@@ -1,7 +1,10 @@
 import {
-  typesRussian,
   similarAdverts
 } from './main.js';
+
+import {
+  typesRussian
+} from './data.js';
 
 import {
   getData
