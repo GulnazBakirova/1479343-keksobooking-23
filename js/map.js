@@ -10,7 +10,7 @@ import {
   getData
 } from './api.js';
 
-const addressInput = document.querySelector('#address');
+export const addressInput = document.querySelector('#address');
 const errorGetData = document.querySelector('.error-data');
 const mapFilters = document.querySelector('.map__filters');
 const childrenOfFilter = [...mapFilters.children];
@@ -19,7 +19,7 @@ const isEscEvent = (e) => {
   return e.key === 'Escape' || e.key === 'Esc';
 };
 
-const closeModal = (response) => {
+export const closeModal = (response) => {
   response.classList.add('hidden');
 };
 
@@ -39,7 +39,7 @@ const createOnModalEscKeydown = (ab) => {
   };
 };
 
-const openModal = (response) => {
+export const openModal = (response) => {
   const clickCloseModalHandler = creteOnModalCloseClick(() => {
     document.removeEventListener('keydown', keydownCloseModalHandler, true);
     response.removeEventListener('click', clickCloseModalHandler, true);
