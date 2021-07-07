@@ -3,6 +3,10 @@ import {
   sendOfferFormSubmit
 } from './api.js';
 
+import {
+  houseTypeMinPrice
+} from './validity.js';
+
 
 const adForm = document.querySelector('.ad-form');
 const adFormFieldsets = document.querySelectorAll('.ad-form__element');
@@ -13,9 +17,16 @@ const adFormImgPreview = adForm.querySelector('.ad-form-header__preview img');
 const adFormPhoto = adForm.querySelector('.ad-form__photo');
 const resetButton = adForm.querySelector('.ad-form__reset');
 
-const typeInput = document.querySelector('#type');
+const typeInput = document.querySelector('#housing-type');
 const checkinTime = document.querySelector('#timein');
 const checkoutTime = document.querySelector('#timeout');
+const priceInput = document.querySelector('#housing-price');
+
+const addressInput = document.querySelector('#address');
+
+const setAddressCoords = function (coords) {
+  addressInput.value = `${coords.x}, ${coords.y}`;
+};
 
 const activateAdForm = function () {
   adForm.classList.remove('ad-form--disabled');
@@ -32,7 +43,14 @@ const deactivateAdForm = function () {
   adForm.classList.add('ad-form--disabled');
 };
 
-const activateMapForm = function () {
+deactivateAdForm();
+
+window.form = {
+  setAddress: setAddressCoords,
+  activate: activateAdForm,
+};
+
+/*const activateMapForm = function () {
   mapForm.classList.remove('map-form--disabled');
   mapFilters.forEach((element) => {
     element.disabled = false;
@@ -45,9 +63,18 @@ const deactivateMapForm = function () {
     element.disabled = true;
   });
   mapForm.classList.add('map-form--disabled');
+};*/
+
+const changeTypeHandler = (targetValue) => {
+  const price = houseTypeMinPrice[targetValue];
+  priceInput.min = price;
+  priceInput.placeholder = price;
 };
 
-
+const changeTimeHandler = (targetValue) => {
+  checkoutTime.value = targetValue;
+  checkinTime.value = targetValue;
+};
 
 const changeHandler = (e) => {
   const targetInput = e.target;
@@ -63,19 +90,9 @@ const changeHandler = (e) => {
     case checkoutTime:
       changeTimeHandler(targetValue);
       break;
-    default: break;
+    default:
+      break;
   }
-}
-
-const changeTypeHandler = (targetValue) => {
-  const price = houseTypeMinPrice[targetValue];
-  priceInput.min = price;
-  priceInput.placeholder = price;
-};
-
-const changeTimeHandler = (targetValue) => {
-  checkoutTime.value = targetValue;
-  checkinTime.value = targetValue;
 };
 
 const resetHandler = (e) => {
@@ -89,10 +106,9 @@ adForm.addEventListener('focus', () => {
   resetButton.addEventListener('click', resetHandler);
 }, true);
 
-adForm.addEventListener('blur', () => {
-  adForm.removeEventListener('change', changeHandler, true);
-  adForm.removeEventListener('submit', sendOfferFormSubmit, true);
-  resetButton.removeEventListener('click', resetHandler, true);
-});
-
-export {adForm, adFormImgPreview, adFormPhoto};
+export {
+  adForm,
+  mapFilters,
+  adFormImgPreview,
+  adFormPhoto
+};

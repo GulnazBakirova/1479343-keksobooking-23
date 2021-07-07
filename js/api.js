@@ -1,21 +1,25 @@
 import {
   ERROR_POST_MESSAGE,
-  ERROR_GET_MESSAGE
+  ERROR_GET_MESSAGE,
+  FETCH_LINK
 } from './data.js';
 
 import {
-  openModal,
-  closeModal,
   addressInput
 } from './map.js';
 
 import {
   adForm,
-  adFormImgPreview
+  adFormImgPreview,
+  mapFilters,
+  adFormPhoto
 } from './form.js';
 
+const success = document.querySelector('.success');
+const error = document.querySelector('.error');
+
 const getData = (onSuccess, onFail) => {
-  fetch('https://23.javascript.pages.academy/keksobooking ')
+  fetch(FETCH_LINK)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -34,7 +38,7 @@ const getData = (onSuccess, onFail) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://23.javascript.pages.academy/keksobooking ',
+    FETCH_LINK,
     {
       method: 'POST',
       body,
@@ -63,16 +67,8 @@ const resetPage = () => {
 
 const showModal = (response) => {
   if (response === success) {
-    openModal(response);
     resetPage();
   }
-  else {
-    openModal(response);
-  }
-
-  setTimeout(() => {
-    closeModal(response);
-  }, 5000);
 };
 
 const sendOfferFormSubmit = (e) => {
@@ -85,4 +81,4 @@ const sendOfferFormSubmit = (e) => {
 };
 
 
-export {getData, resetPage, sendOfferFormSubmit}
+export {getData, resetPage, sendOfferFormSubmit};

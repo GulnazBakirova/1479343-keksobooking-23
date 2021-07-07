@@ -75,3 +75,6 @@ submitButton.addEventListener('click', checkValidation);
 typeInput.addEventListener('change', onTypeInputChange);
 timeInInput.addEventListener('change', onTimeInInputChange);
 timeOutInput.addEventListener('change', onTimeOutInputChange);
+
+
+export {houseTypeMinPrice};

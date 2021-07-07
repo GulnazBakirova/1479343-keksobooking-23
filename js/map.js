@@ -3,27 +3,25 @@ import {
 } from './main.js';
 
 import {
-  typesRussian
+  typesRussian,
+  TOKYO_LAT_LNG,
+  MAX_DECIMAL_FRACTION,
+  START_TOKYO_POINTS,
+  ZOOM
 } from './data.js';
 
-import {
-  getData
-} from './api.js';
-
 export const addressInput = document.querySelector('#address');
-const errorGetData = document.querySelector('.error-data');
-const mapFilters = document.querySelector('.map__filters');
-const childrenOfFilter = [...mapFilters.children];
 
 const isEscEvent = (e) => {
-  return e.key === 'Escape' || e.key === 'Esc';
+  e.key === 'Escape' || e.key === 'Esc';
 };
+
 
 export const closeModal = (response) => {
   response.classList.add('hidden');
 };
 
-const creteOnModalCloseClick = (ab) => {
+const createOnModalCloseClick = (ab) => {
   return (e) => {
     e.preventDefault();
     ab();
@@ -40,7 +38,7 @@ const createOnModalEscKeydown = (ab) => {
 };
 
 export const openModal = (response) => {
-  const clickCloseModalHandler = creteOnModalCloseClick(() => {
+  const clickCloseModalHandler = createOnModalCloseClick(() => {
     document.removeEventListener('keydown', keydownCloseModalHandler, true);
     response.removeEventListener('click', clickCloseModalHandler, true);
     closeModal(response);
@@ -56,18 +54,6 @@ export const openModal = (response) => {
 
   document.addEventListener('keydown', keydownCloseModalHandler, true);
   response.addEventListener('click', clickCloseModalHandler, true);
-};
-
-const changeFilterState = (node, condition) => {
-  node.forEach(element => {
-    element.disabled = condition;
-  });
-
-  if (condition) {
-    mapFilters.classList.add('map__filters--disabled');
-  } else {
-    mapFilters.classList.remove('map__filters--disabled');
-  }
 };
 
 const createCustomPopup = (advert) => {
@@ -125,12 +111,10 @@ const createCustomPopup = (advert) => {
 
 const map = L.map('map-canvas')
   .on('load', () => {
-    addressInput.value = '35.6895, 139.69171';
+    addressInput.value = START_TOKYO_POINTS;
   })
-  .setView({
-    lat: 35.6895,
-    lng: 139.69171,
-  }, 16);
+  .setView(
+    TOKYO_LAT_LNG, ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -144,17 +128,15 @@ const mainPinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-const mainPinMarker = L.marker({
-  lat: 35.6895,
-  lng: 139.69171,
-}, {
-  draggable: true,
-  icon: mainPinIcon,
-}, ).addTo(map);
+const mainPinMarker = L.marker(
+  TOKYO_LAT_LNG, {
+    draggable: true,
+    icon: mainPinIcon,
+  }).addTo(map);
 
 mainPinMarker.on('moveend', (e) => {
   const coordinates = e.target.getLatLng();
-  addressInput.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
+  addressInput.value = `${coordinates.lat.toFixed(MAX_DECIMAL_FRACTION)}, ${coordinates.lng.toFixed(MAX_DECIMAL_FRACTION)}`;
 });
 
 const markerGroup = L.layerGroup().addTo(map);
@@ -187,6 +169,6 @@ const createMarker = (advert) => {
     );
 };
 
-similarAdverts.forEach(function (ad) {
-  createMarker(ad);
+similarAdverts.forEach(function(adv) {
+  createMarker(adv);
 });

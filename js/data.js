@@ -17,6 +17,18 @@ const LAT_MAX = 35.70000;
 const LNG_MIN = 139.70000;
 const LNG_MAX = 139.80000;
 
+const TOKYO_LAT = 35.6895;
+const TOKYO_LNG = 139.69171;
+const TOKYO_LAT_LNG = {
+  lat: TOKYO_LAT,
+  lng: TOKYO_LNG,
+};
+const MAX_DECIMAL_FRACTION = 5;
+const ZOOM = 16;
+const START_TOKYO_POINTS = `${TOKYO_LAT.toFixed(MAX_DECIMAL_FRACTION)}, ${TOKYO_LNG}`;
+
+const FETCH_LINK = 'https://22.javascript.pages.academy/keksobooking/data';
+
 const ERROR_POST_MESSAGE = 'Не удалось отправить форму. Попробуйте ещё раз.';
 const ERROR_GET_MESSAGE = 'Ошибка загрузки данных с сервера.';
 
@@ -40,8 +52,8 @@ const typesRussian = {
 };
 
 function createAdvert() {
-const tempLat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
-const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
+  const tempLat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
+  const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
   return {
     author: {
       avatar: chooseAvatar(),
@@ -68,5 +80,28 @@ const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
   };
 }
 
-export {SIMILAR_ADVERT_COUNT, MAX_PRICE, MAX_ROOMS, MAX_GUESTS, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, ERROR_POST_MESSAGE,
-  ERROR_GET_MESSAGE, FEATURES, PHOTOS, CHECKIN_TIMES, CHECKOUT_TIMES, TITLES, TYPES, typesRussian, createAdvert};
+export {
+  SIMILAR_ADVERT_COUNT,
+  MAX_PRICE,
+  MAX_ROOMS,
+  MAX_GUESTS,
+  LAT_MIN,
+  LAT_MAX,
+  LNG_MIN,
+  LNG_MAX,
+  TOKYO_LAT_LNG,
+  MAX_DECIMAL_FRACTION,
+  ZOOM,
+  START_TOKYO_POINTS,
+  FETCH_LINK,
+  ERROR_POST_MESSAGE,
+  ERROR_GET_MESSAGE,
+  FEATURES,
+  PHOTOS,
+  CHECKIN_TIMES,
+  CHECKOUT_TIMES,
+  TITLES,
+  TYPES,
+  typesRussian,
+  createAdvert
+};
