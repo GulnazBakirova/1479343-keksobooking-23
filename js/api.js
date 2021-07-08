@@ -1,7 +1,8 @@
 import {
   ERROR_POST_MESSAGE,
   ERROR_GET_MESSAGE,
-  FETCH_LINK
+  SERVER,
+  DATA
 } from './data.js';
 
 import {
@@ -18,27 +19,18 @@ import {
 const success = document.querySelector('.success');
 const error = document.querySelector('.error');
 
-const getData = (onSuccess, onFail) => {
-  fetch(FETCH_LINK)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      else {
-        onFail(ERROR_GET_MESSAGE);
-      }
-    })
+const getData = (onSuccess) => {
+  fetch(DATA)
+    .then((response) => response.json())
     .then((offers) => {
       onSuccess(offers);
-    })
-    .catch(() => {
-      onFail(ERROR_GET_MESSAGE);
     });
 };
 
+
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    FETCH_LINK,
+    SERVER,
     {
       method: 'POST',
       body,
@@ -71,13 +63,16 @@ const showModal = (response) => {
   }
 };
 
-const sendOfferFormSubmit = (e) => {
-  e.preventDefault();
-  sendData(
-    () => showModal(success),
-    () => showModal(error),
-    new FormData(e.target),
-  );
+const sendOfferFormSubmit = (onSuccess) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => onSuccess(),
+      () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+      new FormData(evt.target),
+    );
+  });
 };
 
 

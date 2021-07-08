@@ -27,7 +27,8 @@ const MAX_DECIMAL_FRACTION = 5;
 const ZOOM = 16;
 const START_TOKYO_POINTS = `${TOKYO_LAT.toFixed(MAX_DECIMAL_FRACTION)}, ${TOKYO_LNG}`;
 
-const FETCH_LINK = 'https://22.javascript.pages.academy/keksobooking/data';
+const SERVER = 'https://23.javascript.pages.academy/keksobooking';
+const DATA = 'https://23.javascript.pages.academy/keksobooking/data';
 
 const ERROR_POST_MESSAGE = 'Не удалось отправить форму. Попробуйте ещё раз.';
 const ERROR_GET_MESSAGE = 'Ошибка загрузки данных с сервера.';
@@ -93,7 +94,8 @@ export {
   MAX_DECIMAL_FRACTION,
   ZOOM,
   START_TOKYO_POINTS,
-  FETCH_LINK,
+  SERVER,
+  DATA,
   ERROR_POST_MESSAGE,
   ERROR_GET_MESSAGE,
   FEATURES,

@@ -1,8 +1,4 @@
 import {
-  similarAdverts
-} from './main.js';
-
-import {
   typesRussian,
   TOKYO_LAT_LNG,
   MAX_DECIMAL_FRACTION,
@@ -38,17 +34,17 @@ const createOnModalEscKeydown = (ab) => {
 };
 
 export const openModal = (response) => {
-  const clickCloseModalHandler = createOnModalCloseClick(() => {
+  function clickCloseModalHandler (createOnModalCloseClick) {
     document.removeEventListener('keydown', keydownCloseModalHandler, true);
     response.removeEventListener('click', clickCloseModalHandler, true);
     closeModal(response);
-  });
+  };
 
-  const keydownCloseModalHandler = createOnModalEscKeydown(() => {
+  function keydownCloseModalHandler (createOnModalEscKeydown) {
     document.removeEventListener('keydown', keydownCloseModalHandler, true);
     response.removeEventListener('click', clickCloseModalHandler, true);
     closeModal(response);
-  });
+  };
 
   response.classList.remove('hidden');
 
@@ -56,7 +52,7 @@ export const openModal = (response) => {
   response.addEventListener('click', clickCloseModalHandler, true);
 };
 
-const createCustomPopup = (advert) => {
+export const createCustomPopup = (advert) => {
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
   const popup = cardTemplate.cloneNode(true);
@@ -141,7 +137,7 @@ mainPinMarker.on('moveend', (e) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (advert) => {
+export const createMarker = (advert) => {
   const {
     lat,
     lng,
@@ -168,7 +164,3 @@ const createMarker = (advert) => {
       },
     );
 };
-
-similarAdverts.forEach(function(adv) {
-  createMarker(adv);
-});
