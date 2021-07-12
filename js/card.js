@@ -31,7 +31,7 @@ const getCapacityOfRooms = (guests, rooms) => {
     return capacity += `для ${guests} гост${guests === 1 ? 'я' : 'ей'}.`;
   }
   return capacity;
-}
+};
 
 const getCurrentOffer = (currentOffer) => {
   const {author, offer, location, extended} = currentOffer;
@@ -40,7 +40,7 @@ const getCurrentOffer = (currentOffer) => {
   currentOffer.capacity = getCapacityOfRooms(currentOffer.guests, currentOffer.rooms);
   checkInOut.forEach(field => delete currentOffer[field]);
   return currentOffer;
-}
+};
 
 // рендер и показ картинок жилья в попапе
 const renderPhotos = (photos, photoElement) => {
@@ -49,7 +49,7 @@ const renderPhotos = (photos, photoElement) => {
     photoElement.insertAdjacentHTML('beforeend',
       `<img src=${item} class="popup__photo" width="50" height="50" alt="Фотография жилья">`);
   });
-}
+};
 
 // рендер и показ части features в попапе
 const renderFeatures = (features, featureElement) => {
@@ -58,7 +58,7 @@ const renderFeatures = (features, featureElement) => {
     featureElement.insertAdjacentHTML('beforeend',
       `<li class="popup__feature popup__feature--${item}"></li>`);
   });
-}
+};
 
 // создаю попап, чтобы добавить его к меткам объявлений
 const createCustomPopup = (currentOffer) => {
@@ -94,7 +94,7 @@ const createCustomPopup = (currentOffer) => {
 
   });
   return popup;
-}
+};
 
 export {
   getCurrentOffer,

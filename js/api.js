@@ -16,11 +16,11 @@ export const getData = (onSuccess) => {
 // метод для отправки данных
 export const sendData = (onSuccess, onFail, body) => {
   fetch(
-      SERVER, {
-        method: 'POST',
-        body,
-      },
-    )
+    SERVER, {
+      method: 'POST',
+      body,
+    },
+  )
     .then((response) => {
       if (response.ok) {
         onSuccess();

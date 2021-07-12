@@ -29,7 +29,7 @@ export const resetPage = () => {
   avatarPreview.src = AVATAR_DEFAULT;
   housingImagePreview.textContent = '';
   refreshMap();
-}
+};
 
 // открытие модального окна
 export const showModal = (response) => {
@@ -40,10 +40,10 @@ export const showModal = (response) => {
   } else {
     openModal(response);
   }
-}
+};
 
 // валидация на формат картинки
 export const isPicture = (pictureName) => {
   pictureName.toLowerCase();
   return FILE_TYPES.some((filesType) => pictureName.endsWith(filesType));
-}
+};

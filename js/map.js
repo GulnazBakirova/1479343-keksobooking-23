@@ -90,8 +90,8 @@ const refreshMap = () => {
 
   getData(
     (offers) => {
-      const structuredOffers = getStructuredOffers(offers);
-      const markers = getMarkers(structuredOffers);
+      const dataOffers = getOffers(offers);
+      const markers = getMarkers(dataOffers);
       showPins(markers);
     },
     () => {
@@ -99,7 +99,7 @@ const refreshMap = () => {
       changeFilterState(mapFiltersChildren, true);
     },
   );
-}
+};
 
 const getOffers = offers => offers.map(item => getCurrentOffer(item));
 
@@ -118,8 +118,8 @@ const getMarkers = (pins) => {
     {
       keepInView: true,
     },
-  ))
-}
+  ));
+};
 
 const showPins = (markers) => markers.forEach(marker => marker.addTo(map));
 

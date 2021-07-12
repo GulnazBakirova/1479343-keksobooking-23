@@ -47,7 +47,7 @@ avatarInput.addEventListener('change', () => {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
       avatarPreview.src = reader.result;
-    })
+    });
     reader.readAsDataURL(file);
   }
 });
@@ -68,7 +68,7 @@ housingImage.addEventListener('change', () => {
 });
 
 // при загрузке страницы форма находится в неактивном состоянии
-const changeFormState = (node, condition) => {
+const changeFormState (node, condition) => {
   node.forEach(element => {
     element.disabled = condition;
   });
@@ -78,7 +78,7 @@ const changeFormState = (node, condition) => {
   } else {
     form.classList.remove('ad-form--disabled');
   }
-}
+};
 
 // при загрузке страницы фильтры находятся в неактивном состоянии
 const changeFilterState = (node, condition) => {
@@ -91,7 +91,7 @@ const changeFilterState = (node, condition) => {
   } else {
     mapFilters.classList.remove('map__filters--disabled');
   }
-}
+};
 
 const changeTypeHandler = (targetValue) => {
   const price = MIN_PRICE[targetValue];
@@ -102,7 +102,7 @@ const changeTypeHandler = (targetValue) => {
 const changeTimeHandler = (targetValue) => {
   checkOut.value = targetValue;
   checkIn.value = targetValue;
-}
+};
 
 const getOptionsHandler = (options) => {
   let memoOptions = [];
@@ -119,8 +119,8 @@ const getOptionsHandler = (options) => {
     });
 
     memoOptions = [...arrayToDisabled];
-  }
-}
+  };
+};
 
 const getCapacityHandler = getOptionsHandler([...capacity]);
 getCapacityHandler(roomNumber.value);
@@ -128,7 +128,7 @@ getCapacityHandler(roomNumber.value);
 const selectCapacityHandler = (targetValue) => {
   capacity.value = +targetValue === MAX_ROOMS ? NO_ROOMS : targetValue;
   getCapacityHandler(targetValue);
-}
+};
 
 const changeHandler = (e) => {
   const targetInput = e.target;
@@ -150,26 +150,26 @@ const changeHandler = (e) => {
     default:
       break;
   }
-}
+};
 
 // валидация на достаточную длину строки title
 const checkTitleInputHandler = () => {
   const valueLength = titleInput.value.length;
 
   if (valueLength < MIN_TITLE_LENGTH) {
-    titleInput.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
+    titleInput.setCustomValidity(`Ещё ${MIN_TITLE_LENGTH - valueLength} симв.`);
   } else if (valueLength > MAX_TITLE_LENGTH) {
-    titleInput.setCustomValidity('Удалите лишние ' + (valueLength - MAX_TITLE_LENGTH) + ' симв.');
+    titleInput.setCustomValidity(`Удалите лишние ${valueLength - MAX_TITLE_LENGTH} симв.`);
   } else {
     titleInput.setCustomValidity('');
   }
   titleInput.reportValidity();
-}
+};
 
 const resetHandler = (evt) => {
   evt.preventDefault();
   resetPage();
-}
+};
 
 //отправка формы
 const sendOfferFormSubmit = (evt) => {
@@ -179,7 +179,7 @@ const sendOfferFormSubmit = (evt) => {
     () => showModal(error),
     new FormData(e.target),
   );
-}
+};
 
 // ставлю обработчики на форму
 form.addEventListener('change', changeHandler);
