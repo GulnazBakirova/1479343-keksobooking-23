@@ -1,80 +1,134 @@
 import {
+  MAX_ROOMS,
+  MAX_TITLE_LENGTH,
+  MIN_PRICE,
+  MIN_TITLE_LENGTH,
+  NO_ROOMS
+} from './data.js';
+import {
+  success,
+  error
+} from './user-modal.js';
+import {
+  showModal,
   resetPage,
-  sendOfferFormSubmit
+  isPicture
+} from './util.js';
+import {
+  sendData
 } from './api.js';
 
-import {
-  houseTypeMinPrice
-} from './validity.js';
+const form = document.querySelector('.ad-form');
 
+const titleInput = form.querySelector('#title');
+const typeInput = form.querySelector('#type');
+const priceInput = form.querySelector('#price');
+const addressInput = form.querySelector('#address');
+const avatarInput = form.querySelector('#avatar');
+const avatarPreview = form.querySelector('.ad-form-header__preview img');
+const housingImage = form.querySelector('#images');
+const housingImagePreview = form.querySelector('.ad-form__photo');
 
-const adForm = document.querySelector('.ad-form');
-const adFormFieldsets = document.querySelectorAll('.ad-form__element');
-const mapForm = document.querySelector('.map__filters');
-const mapFilters = mapForm.querySelectorAll('.map__filter');
+const formChildren = [...form.children];
+const mapFilters = document.querySelector('.map__filters');
+const mapFiltersChildren = [...mapFilters.children];
+const resetButton = form.querySelector('.ad-form__reset');
 
-const adFormImgPreview = adForm.querySelector('.ad-form-header__preview img');
-const adFormPhoto = adForm.querySelector('.ad-form__photo');
-const resetButton = adForm.querySelector('.ad-form__reset');
+const checkIn = form.querySelector('#timein');
+const checkOut = form.querySelector('#timeout');
+const roomNumber = form.querySelector('#room_number');
+const capacity = form.querySelector('#capacity');
 
-const typeInput = document.querySelector('#housing-type');
-const checkinTime = document.querySelector('#timein');
-const checkoutTime = document.querySelector('#timeout');
-const priceInput = document.querySelector('#housing-price');
+// ставлю обработчик инпута для выбора файлов на аватарку
+avatarInput.addEventListener('change', () => {
+  const file = avatarInput.files[0];
+  const fileName = file.name;
+  if (isPicture(fileName)) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      avatarPreview.src = reader.result;
+    })
+    reader.readAsDataURL(file);
+  }
+});
 
-const addressInput = document.querySelector('#address');
+// ставлю обработчик инпута для выбора файлов на картинку жилья
+housingImage.addEventListener('change', () => {
+  const file = housingImage.files[0];
+  const fileName = file.name;
+  if (isPicture(fileName)) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      const image = reader.result;
+      housingImagePreview.insertAdjacentHTML('beforeend',
+        `<img src="${image}" alt="Фотография жилья" width="100%" height="100%">`);
+    });
+    reader.readAsDataURL(file);
+  }
+});
 
-const setAddressCoords = function (coords) {
-  addressInput.value = `${coords.x}, ${coords.y}`;
-};
-
-const activateAdForm = function () {
-  adForm.classList.remove('ad-form--disabled');
-  adFormFieldsets.forEach((element) => {
-    element.disabled = false;
+// при загрузке страницы форма находится в неактивном состоянии
+const changeFormState = (node, condition) => {
+  node.forEach(element => {
+    element.disabled = condition;
   });
-};
 
-const deactivateAdForm = function () {
-  adForm.reset();
-  adFormFieldsets.forEach((element) => {
-    element.disabled = true;
+  if (condition) {
+    form.classList.add('ad-form--disabled');
+  } else {
+    form.classList.remove('ad-form--disabled');
+  }
+}
+
+// при загрузке страницы фильтры находятся в неактивном состоянии
+const changeFilterState = (node, condition) => {
+  node.forEach(element => {
+    element.disabled = condition;
   });
-  adForm.classList.add('ad-form--disabled');
-};
 
-deactivateAdForm();
-
-window.form = {
-  setAddress: setAddressCoords,
-  activate: activateAdForm,
-};
-
-/*const activateMapForm = function () {
-  mapForm.classList.remove('map-form--disabled');
-  mapFilters.forEach((element) => {
-    element.disabled = false;
-  });
-};
-
-const deactivateMapForm = function () {
-  mapForm.reset();
-  mapFilters.forEach((element) => {
-    element.disabled = true;
-  });
-  mapForm.classList.add('map-form--disabled');
-};*/
+  if (condition) {
+    mapFilters.classList.add('map__filters--disabled');
+  } else {
+    mapFilters.classList.remove('map__filters--disabled');
+  }
+}
 
 const changeTypeHandler = (targetValue) => {
-  const price = houseTypeMinPrice[targetValue];
+  const price = MIN_PRICE[targetValue];
   priceInput.min = price;
   priceInput.placeholder = price;
 };
 
 const changeTimeHandler = (targetValue) => {
-  checkoutTime.value = targetValue;
-  checkinTime.value = targetValue;
-};
+  checkOut.value = targetValue;
+  checkIn.value = targetValue;
+}
+
+const getOptionsHandler = (options) => {
+  let memoOptions = [];
+
+  return (targetValue) => {
+    memoOptions.forEach(item => {
+      item.disabled = false;
+    });
+
+    const index = options.findIndex(elem => elem.value === targetValue);
+    const arrayToDisabled = index !== -1 ? options.slice(index + 1) : options.slice(0, options.length - 1);
+    arrayToDisabled.forEach(item => {
+      item.disabled = true;
+    });
+
+    memoOptions = [...arrayToDisabled];
+  }
+}
+
+const getCapacityHandler = getOptionsHandler([...capacity]);
+getCapacityHandler(roomNumber.value);
+
+const selectCapacityHandler = (targetValue) => {
+  capacity.value = +targetValue === MAX_ROOMS ? NO_ROOMS : targetValue;
+  getCapacityHandler(targetValue);
+}
 
 const changeHandler = (e) => {
   const targetInput = e.target;
@@ -84,31 +138,63 @@ const changeHandler = (e) => {
     case typeInput:
       changeTypeHandler(targetValue);
       break;
-    case checkinTime:
+    case checkIn:
       changeTimeHandler(targetValue);
       break;
-    case checkoutTime:
+    case checkOut:
       changeTimeHandler(targetValue);
+      break;
+    case roomNumber:
+      selectCapacityHandler(targetValue);
       break;
     default:
       break;
   }
-};
+}
 
-const resetHandler = (e) => {
-  e.preventDefault();
+// валидация на достаточную длину строки title
+const checkTitleInputHandler = () => {
+  const valueLength = titleInput.value.length;
+
+  if (valueLength < MIN_TITLE_LENGTH) {
+    titleInput.setCustomValidity('Ещё ' + (MIN_TITLE_LENGTH - valueLength) + ' симв.');
+  } else if (valueLength > MAX_TITLE_LENGTH) {
+    titleInput.setCustomValidity('Удалите лишние ' + (valueLength - MAX_TITLE_LENGTH) + ' симв.');
+  } else {
+    titleInput.setCustomValidity('');
+  }
+  titleInput.reportValidity();
+}
+
+const resetHandler = (evt) => {
+  evt.preventDefault();
   resetPage();
-};
+}
 
-adForm.addEventListener('focus', () => {
-  adForm.addEventListener('change', changeHandler);
-  adForm.addEventListener('submit', sendOfferFormSubmit);
-  resetButton.addEventListener('click', resetHandler);
-}, true);
+//отправка формы
+const sendOfferFormSubmit = (evt) => {
+  evt.preventDefault();
+  sendData(
+    () => showModal(success),
+    () => showModal(error),
+    new FormData(e.target),
+  );
+}
+
+// ставлю обработчики на форму
+form.addEventListener('change', changeHandler);
+form.addEventListener('submit', sendOfferFormSubmit);
+titleInput.addEventListener('input', checkTitleInputHandler);
+resetButton.addEventListener('click', resetHandler);
 
 export {
-  adForm,
+  form,
+  avatarPreview,
+  housingImagePreview,
+  formChildren,
   mapFilters,
-  adFormImgPreview,
-  adFormPhoto
+  mapFiltersChildren,
+  addressInput,
+  changeFormState,
+  changeFilterState
 };
