@@ -1,192 +1,128 @@
 import {
-  similarAdverts
-} from './main.js';
+  addressInput,
+  mapFiltersChildren,
+  formChildren,
+  changeFormState,
+  changeFilterState
+} from './form.js';
 
 import {
-  typesRussian
+  createCustomPopup,
+  getCurrentOffer
+} from './card.js';
+
+import {
+  MAX_DECIMAL_NUMBERS,
+  MAIN_PIN,
+  PIN,
+  START_POINTS,
+  START_POINTS_OBJECT,
+  TOKYO_LAT,
+  TOKYO_LNG,
+  ZOOM,
+  PINS_AMOUNT
 } from './data.js';
 
 import {
   getData
 } from './api.js';
 
-const addressInput = document.querySelector('#address');
-const errorGetData = document.querySelector('.error-data');
-const mapFilters = document.querySelector('.map__filters');
-const childrenOfFilter = [...mapFilters.children];
+import {
+  errorGetData,
+  openModal
+} from './user-modal.js';
 
-const isEscEvent = (e) => {
-  return e.key === 'Escape' || e.key === 'Esc';
-};
+changeFormState(formChildren, true);
+changeFilterState(mapFiltersChildren, true);
 
-const closeModal = (response) => {
-  response.classList.add('hidden');
-};
-
-const creteOnModalCloseClick = (ab) => {
-  return (e) => {
-    e.preventDefault();
-    ab();
-  };
-};
-
-const createOnModalEscKeydown = (ab) => {
-  return (e) => {
-    if (isEscEvent(e)) {
-      e.preventDefault();
-      ab();
-    }
-  };
-};
-
-const openModal = (response) => {
-  const clickCloseModalHandler = creteOnModalCloseClick(() => {
-    document.removeEventListener('keydown', keydownCloseModalHandler, true);
-    response.removeEventListener('click', clickCloseModalHandler, true);
-    closeModal(response);
-  });
-
-  const keydownCloseModalHandler = createOnModalEscKeydown(() => {
-    document.removeEventListener('keydown', keydownCloseModalHandler, true);
-    response.removeEventListener('click', clickCloseModalHandler, true);
-    closeModal(response);
-  });
-
-  response.classList.remove('hidden');
-
-  document.addEventListener('keydown', keydownCloseModalHandler, true);
-  response.addEventListener('click', clickCloseModalHandler, true);
-};
-
-const changeFilterState = (node, condition) => {
-  node.forEach(element => {
-    element.disabled = condition;
-  });
-
-  if (condition) {
-    mapFilters.classList.add('map__filters--disabled');
-  } else {
-    mapFilters.classList.remove('map__filters--disabled');
-  }
-};
-
-const createCustomPopup = (advert) => {
-  const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-  const popup = cardTemplate.cloneNode(true);
-
-  const popupTitle = popup.querySelector('.popup__title');
-  popupTitle.textContent = advert.offer.title;
-
-  const popupTextAddrress = popup.querySelector('.popup__text--address');
-  popupTextAddrress.textContent = advert.offer.address;
-
-  const popupTextPrice = popup.querySelector('.popup__text--price ');
-  popupTextPrice.textContent = `${advert.offer.price} ₽/ночь`;
-
-  const popupType = popup.querySelector('.popup__type ');
-  popupType.textContent = `${advert.offer.type}  ${typesRussian[advert.offer.type]}`;
-
-  const popupTextCapacity = popup.querySelector('.popup__text--capacity');
-  popupTextCapacity.textContent = `${advert.offer.rooms} комнаты для ${advert.offer.guests} гостей`;
-
-  const popupTextTime = popup.querySelector('.popup__text--time ');
-  popupTextTime.textContent = `Заезд после ${advert.offer.checkin} , выезд до ${advert.offer.checkout}`;
-
-  const popupDescription = popup.querySelector('.popup__description');
-  popupDescription.textContent = advert.description;
-
-  const featuresElement = popup.querySelector('.popup__features');
-  featuresElement.innerHTML = '';
-  const featuresFragment = document.createDocumentFragment();
-  advert.offer.features.forEach((feature) => {
-    const li = document.createElement('li');
-    li.classList.add('popup__feature', 'popup__feature--' + feature);
-    featuresFragment.appendChild(li);
-  });
-  featuresElement.appendChild(featuresFragment);
-
-  const photosElement = popup.querySelector('.popup__photos');
-  photosElement.innerHTML = '';
-  const photosFragment = document.createDocumentFragment();
-  advert.offer.photos.forEach((photo) => {
-    const img = document.createElement('img');
-    img.classList.add('popup__photo');
-    img.alt = 'Фотография жилья';
-    img.src = photo;
-    img.width = '45px';
-    img.height = '40px';
-    photosFragment.appendChild(img);
-  });
-  photosElement.appendChild(photosFragment);
-
-  return popup;
-};
-
+// создаю карту
 const map = L.map('map-canvas')
   .on('load', () => {
-    addressInput.value = '35.6895, 139.69171';
+    changeFormState(formChildren, false);
+    changeFilterState(mapFiltersChildren, false);
+    addressInput.value = START_POINTS;
   })
-  .setView({
-    lat: 35.6895,
-    lng: 139.69171,
-  }, 16);
+  .setView(START_POINTS_OBJECT, ZOOM);
 
+// добавляю изображение карты
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>',
   },
 ).addTo(map);
 
+// меняю изображение по дефолту на изображение из ТЗ
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [MAIN_PIN, MAIN_PIN],
+  iconAnchor: [MAIN_PIN / 2, MAIN_PIN],
 });
 
-const mainPinMarker = L.marker({
-  lat: 35.6895,
-  lng: 139.69171,
-}, {
-  draggable: true,
-  icon: mainPinIcon,
-}, ).addTo(map);
+// добавляю главный маркер
+const mainPinMarker = L.marker(
+  START_POINTS_OBJECT,
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
+
+// добавляю иконки
+const icon = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [PIN, PIN],
+  iconAnchor: [PIN / 2, PIN],
+});
+
+mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (e) => {
   const coordinates = e.target.getLatLng();
-  addressInput.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
+  addressInput.value = `${coordinates.lat.toFixed(MAX_DECIMAL_NUMBERS)}, ${coordinates.lng.toFixed(MAX_DECIMAL_NUMBERS)}`;
 });
 
-const markerGroup = L.layerGroup().addTo(map);
+// возвращение к начальным значениям масштаба и центра карты
+const refreshMap = () => {
+  map.setView(START_POINTS_OBJECT, ZOOM);
+  const startLatLng = new L.LatLng(TOKYO_LAT, TOKYO_LNG);
+  mainPinMarker.setLatLng(startLatLng);
 
-const createMarker = (advert) => {
-  const {
-    lat,
-    lng,
-  } = advert.location;
-
-  const icon = L.icon({
-    iconUrl: './img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const marker = L.marker({
-    lat,
-    lng,
-  }, {
-    icon,
-  });
-
-  marker
-    .addTo(markerGroup)
-    .bindPopup(
-      createCustomPopup(advert), {
-        keepInView: true,
-      },
-    );
+  getData(
+    (offers) => {
+      const dataOffers = getOffers(offers);
+      const markers = getMarkers(dataOffers);
+      showPins(markers);
+    },
+    () => {
+      openModal(errorGetData);
+      changeFilterState(mapFiltersChildren, true);
+    },
+  );
 };
 
-similarAdverts.forEach(function (ad) {
-  createMarker(ad);
-});
+const getOffers = offers => offers.map(item => getCurrentOffer(item));
+
+// добавляю попап к меткам объявлений
+const getMarkers = (pins) => {
+  return pins.slice(0, PINS_AMOUNT).map(pin => L.marker(
+    {
+      lat: pin.lat,
+      lng: pin.lng,
+    },
+    {
+      icon,
+    },
+  ).bindPopup(
+    createCustomPopup(pin),
+    {
+      keepInView: true,
+    },
+  ));
+};
+
+const showPins = (markers) => markers.forEach(marker => marker.addTo(map));
+
+const hidePins = (markers) => markers.forEach(marker => marker.remove());
+
+export {refreshMap, getOffers, getMarkers, showPins, hidePins};

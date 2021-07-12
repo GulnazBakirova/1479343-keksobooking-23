@@ -1,6 +1,31 @@
 import {
-  SIMILAR_ADVERT_COUNT,
-  createAdvert
-} from './data.js';
+  showPins,
+  getOffers,
+  getMarkers
+} from './map.js';
 
-export const similarAdverts = new Array(SIMILAR_ADVERT_COUNT).fill(null).map(() => createAdvert());
+import {
+  mapFiltersChildren,
+  changeFilterState
+} from './form.js';
+
+import {
+  getData
+} from './api.js';
+
+import {
+  errorGetData,
+  openModal
+} from './user-modal.js';
+
+getData(
+  (offers) => {
+    const dataOffers = getOffers(offers);
+    const markers = getMarkers(dataOffers);
+    showPins(markers);
+  },
+  () => {
+    openModal(errorGetData);
+    changeFilterState(mapFiltersChildren, true);
+  },
+);

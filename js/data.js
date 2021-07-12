@@ -1,72 +1,42 @@
-import {
-  getRandomIntegerInRange,
-  getRandomFloat,
-  chooseAvatar,
-  getFirst,
-  getRandomArrayElement
-} from './util.js';
+export const PINS_AMOUNT = 10;
 
-const SIMILAR_ADVERT_COUNT = 10;
-
-const MAX_PRICE = 10000;
-const MAX_ROOMS = 10000;
-const MAX_GUESTS = 10000;
-
-const LAT_MIN = 35.65000;
-const LAT_MAX = 35.70000;
-const LNG_MIN = 139.70000;
-const LNG_MAX = 139.80000;
-
-const ERROR_POST_MESSAGE = 'Не удалось отправить форму. Попробуйте ещё раз.';
-const ERROR_GET_MESSAGE = 'Ошибка загрузки данных с сервера.';
-
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
-  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
-];
-
-const CHECKIN_TIMES = ['12:00', '13:00', '14:00'];
-const CHECKOUT_TIMES = ['12:00', '13:00', '14:00'];
-const TITLES = ['Квартира', 'Отель', 'Комната', 'Кемпинг', 'Трейлер'];
-const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-
-const typesRussian = {
-  palace: 'дворец',
-  flat: 'квартира',
-  house: 'дом',
-  bungalow: 'бунгало',
-  hotel: 'отель',
+export const MIN_PRICE = {
+  flat: 1000,
+  bungalow: 0,
+  house: 5000,
+  palace: 10000,
+  hotel: 3000,
+};
+export const PRICE = {
+  low: 10000,
+  high: 50000,
 };
 
-function createAdvert() {
-const tempLat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
-const tempLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
-  return {
-    author: {
-      avatar: chooseAvatar(),
-    },
+export const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+export const AVATAR_DEFAULT = 'img/muffin-grey.svg';
 
-    offer: {
-      title: getRandomArrayElement(TITLES),
-      address: `${tempLat} , ${tempLng}`,
-      price: getRandomIntegerInRange(0, MAX_PRICE),
-      type: getRandomArrayElement(TYPES),
-      rooms: getRandomIntegerInRange(0, MAX_ROOMS),
-      guests: getRandomIntegerInRange(0, MAX_GUESTS),
-      checkin: getRandomArrayElement(CHECKIN_TIMES),
-      checkout: getRandomArrayElement(CHECKOUT_TIMES),
-      features: getFirst(FEATURES),
-      description: 'Расскажите подробнее о вашем жилье',
-      photos: getFirst(PHOTOS),
-    },
+export const MAX_DECIMAL_NUMBERS = 5;
+export const MIN_TITLE_LENGTH = 30;
+export const MAX_TITLE_LENGTH = 100;
+export const MAX_ROOMS = 100;
+export const NO_ROOMS = 0;
 
-    location: {
-      lat: tempLat,
-      lng: tempLng,
-    },
-  };
-}
+export const TOKYO_LAT = 35.6895;
+export const TOKYO_LNG = 139.69171;
+export const START_POINTS = `${TOKYO_LAT.toFixed(MAX_DECIMAL_NUMBERS)}, ${TOKYO_LNG}`;
+export const START_POINTS_OBJECT = {
+  lat: TOKYO_LAT,
+  lng: TOKYO_LNG,
+};
+export const ZOOM = 13;
 
-export {SIMILAR_ADVERT_COUNT, MAX_PRICE, MAX_ROOMS, MAX_GUESTS, LAT_MIN, LAT_MAX, LNG_MIN, LNG_MAX, ERROR_POST_MESSAGE,
-  ERROR_GET_MESSAGE, FEATURES, PHOTOS, CHECKIN_TIMES, CHECKOUT_TIMES, TITLES, TYPES, typesRussian, createAdvert};
+export const MAIN_PIN = 52;
+export const PIN = 40;
+
+export const SERVER = 'https://23.javascript.pages.academy/keksobooking';
+export const DATA = 'https://23.javascript.pages.academy/keksobooking/data';
+
+
+export const RERENDER_DELAY = 500;
+
+export const ERROR_POST_MESSAGE = 'Не удалось отправить форму. Попробуйте ещё раз';

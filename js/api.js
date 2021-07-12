@@ -1,22 +1,34 @@
 import {
   ERROR_POST_MESSAGE,
-  ERROR_GET_MESSAGE
+  DATA,
+  SERVER
 } from './data.js';
 
-export const getData = (onSuccess, onFail) => {
-  fetch('https://22.javascript.pages.academy/keksobooking/data')
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      else {
-        onFail(ERROR_GET_MESSAGE);
-      }
-    })
+// метод для получения данных
+export const getData = (onSuccess) => {
+  fetch(DATA)
+    .then((response) => response.json())
     .then((offers) => {
       onSuccess(offers);
+    });
+};
+
+// метод для отправки данных
+export const sendData = (onSuccess, onFail, body) => {
+  fetch(
+    SERVER, {
+      method: 'POST',
+      body,
+    },
+  )
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onFail(ERROR_POST_MESSAGE);
+      }
     })
     .catch(() => {
-      onFail(ERROR_GET_MESSAGE);
+      onFail(ERROR_POST_MESSAGE);
     });
 };
