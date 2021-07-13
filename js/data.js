@@ -12,7 +12,6 @@ export const PRICE = {
   high: 50000,
 };
 
-export const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 export const AVATAR_DEFAULT = 'img/muffin-grey.svg';
 
 export const MAX_DECIMAL_NUMBERS = 5;

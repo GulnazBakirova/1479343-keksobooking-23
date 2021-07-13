@@ -11,8 +11,7 @@ import {
 } from './user-modal.js';
 import {
   showModal,
-  resetPage,
-  isPicture
+  resetPage
 } from './util.js';
 import {
   sendData
@@ -24,10 +23,6 @@ const titleInput = form.querySelector('#title');
 const typeInput = form.querySelector('#type');
 const priceInput = form.querySelector('#price');
 const addressInput = form.querySelector('#address');
-const avatarInput = form.querySelector('#avatar');
-const avatarPreview = form.querySelector('.ad-form-header__preview img');
-const housingImage = form.querySelector('#images');
-const housingImagePreview = form.querySelector('.ad-form__photo');
 
 const formChildren = [...form.children];
 const mapFilters = document.querySelector('.map__filters');
@@ -39,36 +34,8 @@ const checkOut = form.querySelector('#timeout');
 const roomNumber = form.querySelector('#room_number');
 const capacity = form.querySelector('#capacity');
 
-// ставлю обработчик инпута для выбора файлов на аватарку
-avatarInput.addEventListener('change', () => {
-  const file = avatarInput.files[0];
-  const fileName = file.name;
-  if (isPicture(fileName)) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      avatarPreview.src = reader.result;
-    });
-    reader.readAsDataURL(file);
-  }
-});
-
-// ставлю обработчик инпута для выбора файлов на картинку жилья
-housingImage.addEventListener('change', () => {
-  const file = housingImage.files[0];
-  const fileName = file.name;
-  if (isPicture(fileName)) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      const image = reader.result;
-      housingImagePreview.insertAdjacentHTML('beforeend',
-        `<img src="${image}" alt="Фотография жилья" width="100%" height="100%">`);
-    });
-    reader.readAsDataURL(file);
-  }
-});
-
 // при загрузке страницы форма находится в неактивном состоянии
-const changeFormState (node, condition) => {
+const changeFormState = (node, condition) => {
   node.forEach(element => {
     element.disabled = condition;
   });
@@ -189,8 +156,6 @@ resetButton.addEventListener('click', resetHandler);
 
 export {
   form,
-  avatarPreview,
-  housingImagePreview,
   formChildren,
   mapFilters,
   mapFiltersChildren,

@@ -32,6 +32,11 @@ import {
   openModal
 } from './user-modal.js';
 
+import {
+  filterPins
+} from './filter.js';
+
+
 changeFormState(formChildren, true);
 changeFilterState(mapFiltersChildren, true);
 
@@ -82,25 +87,6 @@ mainPinMarker.on('moveend', (e) => {
   addressInput.value = `${coordinates.lat.toFixed(MAX_DECIMAL_NUMBERS)}, ${coordinates.lng.toFixed(MAX_DECIMAL_NUMBERS)}`;
 });
 
-// возвращение к начальным значениям масштаба и центра карты
-const refreshMap = () => {
-  map.setView(START_POINTS_OBJECT, ZOOM);
-  const startLatLng = new L.LatLng(TOKYO_LAT, TOKYO_LNG);
-  mainPinMarker.setLatLng(startLatLng);
-
-  getData(
-    (offers) => {
-      const dataOffers = getOffers(offers);
-      const markers = getMarkers(dataOffers);
-      showPins(markers);
-    },
-    () => {
-      openModal(errorGetData);
-      changeFilterState(mapFiltersChildren, true);
-    },
-  );
-};
-
 const getOffers = offers => offers.map(item => getCurrentOffer(item));
 
 // добавляю попап к меткам объявлений
@@ -124,5 +110,26 @@ const getMarkers = (pins) => {
 const showPins = (markers) => markers.forEach(marker => marker.addTo(map));
 
 const hidePins = (markers) => markers.forEach(marker => marker.remove());
+
+// возвращение к начальным значениям масштаба и центра карты
+const refreshMap = () => {
+  map.setView(START_POINTS_OBJECT, ZOOM);
+  const startLatLng = new L.LatLng(TOKYO_LAT, TOKYO_LNG);
+  mainPinMarker.setLatLng(startLatLng);
+
+  getData(
+    (offers) => {
+      const dataOffers = getOffers(offers);
+      const markers = getMarkers(dataOffers);
+      showPins(markers);
+      filterPins(dataOffers, markers);
+    },
+    () => {
+      openModal(errorGetData);
+      changeFilterState(mapFiltersChildren, true);
+    },
+  );
+};
+
 
 export {refreshMap, getOffers, getMarkers, showPins, hidePins};
