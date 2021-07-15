@@ -64,7 +64,7 @@ export const filterPins = (offers, markers) => {
       return array;
     }
     else {
-      return array.filter(offer => offer[parameter].some(feature => featuresValues.some(value => value === feature)));
+      return array.filter(offer => JSON.stringify(featuresValues) === JSON.stringify(offer[parameter]));
     }
   };
 
