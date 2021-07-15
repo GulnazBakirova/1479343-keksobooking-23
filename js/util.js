@@ -1,5 +1,4 @@
 import {
-  FILE_TYPES,
   START_POINTS,
   AVATAR_DEFAULT
 } from './data.js';
@@ -17,8 +16,6 @@ import {
   addressInput,
   form,
   mapFilters,
-  avatarPreview,
-  housingImagePreview
 } from './form.js';
 
 // сброс страницы
@@ -40,10 +37,4 @@ export const showModal = (response) => {
   } else {
     openModal(response);
   }
-};
-
-// валидация на формат картинки
-export const isPicture = (pictureName) => {
-  pictureName.toLowerCase();
-  return FILE_TYPES.some((filesType) => pictureName.endsWith(filesType));
 };

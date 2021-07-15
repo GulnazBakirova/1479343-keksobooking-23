@@ -18,11 +18,16 @@ import {
   openModal
 } from './user-modal.js';
 
+import {
+  filterPins
+} from './filter.js';
+
 getData(
   (offers) => {
     const dataOffers = getOffers(offers);
     const markers = getMarkers(dataOffers);
     showPins(markers);
+    filterPins(dataOffers, markers);
   },
   () => {
     openModal(errorGetData);
