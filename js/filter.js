@@ -40,11 +40,11 @@ export const filterPins = (offers, markers) => {
     };
   };
 
-  const filterByType = (array, parameter, value) => value === 'any' ? array : array.filter(offer => offer[parameter] === value);
+  const filterByType = (array, parameter, value) => value === 'any' ? array : array.filter((offer) => offer[parameter] === value);
 
-  const filterByCapacity = (array, parameter, value) => value === 'any' ? array : array.filter(offer => offer[parameter] === +value);
+  const filterByCapacity = (array, parameter, value) => value === 'any' ? array : array.filter((offer) => offer[parameter] === +value);
 
-  const filterByPrice = (array, parameter, value) => value === 'any' ? array : array.filter(offer => {
+  const filterByPrice = (array, parameter, value) => value === 'any' ? array : array.filter((offer) => {
     switch (value) {
       case 'low':
         return +offer[parameter] < PRICE.low;
@@ -59,12 +59,12 @@ export const filterPins = (offers, markers) => {
 
   const filterByCheckboxes = (array, parameter) => {
     const features = [...mapFilters.querySelectorAll('input[type="checkbox"]:checked')];
-    const featuresValues = features.map(feature => feature.value);
+    const featuresValues = features.map((feature) => feature.value);
     if (features.length === 0) {
       return array;
     }
     else {
-      return array.filter(offer => JSON.stringify(featuresValues) === JSON.stringify(offer[parameter]));
+      return array.filter((offer) => JSON.stringify(featuresValues) === JSON.stringify(offer[parameter]));
     }
   };
 

@@ -71,7 +71,7 @@ housingImageInput.addEventListener('change', () => {
 
 // при загрузке страницы форма находится в неактивном состоянии
 const changeFormState = (node, condition) => {
-  node.forEach(element => {
+  node.forEach((element) => {
     element.disabled = condition;
   });
 
@@ -84,7 +84,7 @@ const changeFormState = (node, condition) => {
 
 // при загрузке страницы фильтры находятся в неактивном состоянии
 const changeFilterState = (node, condition) => {
-  node.forEach(element => {
+  node.forEach((element) => {
     element.disabled = condition;
   });
 
@@ -110,13 +110,13 @@ const getOptionsHandler = (options) => {
   let memoOptions = [];
 
   return (targetValue) => {
-    memoOptions.forEach(item => {
+    memoOptions.forEach((item) => {
       item.disabled = false;
     });
 
-    const index = options.findIndex(elem => elem.value === targetValue);
+    const index = options.findIndex((elem) => elem.value === targetValue);
     const arrayToDisabled = index !== -1 ? options.slice(index + 1) : options.slice(0, options.length - 1);
-    arrayToDisabled.forEach(item => {
+    arrayToDisabled.forEach((item) => {
       item.disabled = true;
     });
 

@@ -38,7 +38,7 @@ const getCurrentOffer = (currentOffer) => {
   currentOffer = Object.assign({}, author, offer, location, extended);
   currentOffer.time = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   currentOffer.capacity = getCapacityOfRooms(currentOffer.guests, currentOffer.rooms);
-  checkInOut.forEach(field => delete currentOffer[field]);
+  checkInOut.forEach((field) => delete currentOffer[field]);
   return currentOffer;
 };
 
@@ -65,9 +65,9 @@ const createCustomPopup = (currentOffer) => {
   const popup = document.querySelector('#card').content.querySelector('.popup').cloneNode(true);
   const nodes = Array.from(popup.children);
   const keys = Object.keys(currentOffer);
-  const classes = nodes.map(item => item.classList.value);
+  const classes = nodes.map((item) => item.classList.value);
   classes.forEach((item, i) => {
-    const key = keys.find(key => item.includes(key));
+    const key = keys.find((key) => item.includes(key));
     const value = currentOffer[key];
     const node = nodes[i];
     if (!key || !value || value.length === 0) {
