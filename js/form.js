@@ -179,7 +179,7 @@ const sendOfferFormSubmit = (evt) => {
   sendData(
     () => showModal(success),
     () => showModal(error),
-    new FormData(e.target),
+    new FormData(evt.target),
   );
 };
 

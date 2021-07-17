@@ -5,24 +5,20 @@ export const closeModal = (response) => {
   response.classList.add('hidden');
 };
 
-const isEscEvent = (e) => {
-  e.key === 'Escape' || e.key === 'Esc';
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
+const createOnModalEscKeydown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    closeModal();
+  }
 };
 
-const createOnModalEscKeydown = (cb) => {
-  return (e) => {
-    if (isEscEvent(e)) {
-      e.preventDefault();
-      cb();
-    }
-  };
-};
-
-const createOnModalCloseClick = (cb) => {
-  return (e) => {
-    e.preventDefault();
-    cb();
-  };
+const createOnModalCloseClick = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    closeModal();
+  }
 };
 
 export const openModal = (response) => {

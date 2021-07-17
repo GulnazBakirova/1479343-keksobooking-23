@@ -15,19 +15,21 @@ import {
   showPins
 } from './map.js';
 
-const debounce = (cb) => {
-  let lastTimeout = null;
-
-  return function () {
-    const parameters = arguments;
-
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
+const debounce = (func, wait, immediate) => {
+  let timeout;
+  return function() {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = null;
+      if (!immediate) {
+        func.apply(context, args);
+      }
+    }, wait);
+    if (immediate && !timeout) {
+      func.apply(context, args);
     }
-
-    lastTimeout = window.setTimeout(function () {
-      cb.apply(null, parameters);
-    }, RERENDER_DELAY);
   };
 };
 
