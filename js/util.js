@@ -1,6 +1,7 @@
 import {
   START_POINTS,
-  AVATAR_DEFAULT
+  AVATAR_DEFAULT,
+  FILE_TYPES
 } from './data.js';
 
 import {
@@ -16,6 +17,8 @@ import {
   addressInput,
   form,
   mapFilters,
+  avatarImagePreview,
+  housingImagePreview
 } from './form.js';
 
 // сброс страницы
@@ -23,7 +26,7 @@ export const resetPage = () => {
   form.reset();
   mapFilters.reset();
   addressInput.value = START_POINTS;
-  avatarPreview.src = AVATAR_DEFAULT;
+  avatarImagePreview.src = AVATAR_DEFAULT;
   housingImagePreview.textContent = '';
   refreshMap();
 };
@@ -38,3 +41,10 @@ export const showModal = (response) => {
     openModal(response);
   }
 };
+
+// валидация на формат картинки
+export const pictureFormat = (pictureName) => {
+  pictureName.toLowerCase();
+  return FILE_TYPES.some((fileTypes) => pictureName.endsWith(fileTypes));
+};
+

@@ -11,7 +11,8 @@ import {
 } from './user-modal.js';
 import {
   showModal,
-  resetPage
+  resetPage,
+  pictureFormat
 } from './util.js';
 import {
   sendData
@@ -33,6 +34,40 @@ const checkIn = form.querySelector('#timein');
 const checkOut = form.querySelector('#timeout');
 const roomNumber = form.querySelector('#room_number');
 const capacity = form.querySelector('#capacity');
+
+const avatarInput = document.querySelector('#avatar');
+const avatarImagePreview = form.querySelector('.ad-form-header__preview img');
+const housingImageInput = form.querySelector('#images');
+const housingImagePreview = form.querySelector('.ad-form__photo');
+
+// ставлю обработчик инпута для выбора файлов на аватарку
+avatarInput.addEventListener('change', () => {
+  const file = avatarInput.files[0];
+  const fileName = file.name;
+  if (pictureFormat(fileName)) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      avatarImagePreview.src = reader.result;
+    });
+    reader.readAsDataURL(file);
+  }
+});
+
+// ставлю обработчик инпута для выбора файлов на картинку жилья
+housingImageInput.addEventListener('change', () => {
+  const file = housingImageInput.files[0];
+  const fileName = file.name;
+  if (pictureFormat(fileName)) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      const image = reader.result;
+      housingImagePreview.insertAdjacentHTML('beforeend',
+        `<img src="${image}" alt="Фотография жилья" width="100%" height="100%">`);
+    });
+    reader.readAsDataURL(file);
+  }
+});
+
 
 // при загрузке страницы форма находится в неактивном состоянии
 const changeFormState = (node, condition) => {
@@ -161,5 +196,7 @@ export {
   mapFiltersChildren,
   addressInput,
   changeFormState,
-  changeFilterState
+  changeFilterState,
+  avatarImagePreview,
+  housingImagePreview
 };

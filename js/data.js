@@ -39,3 +39,6 @@ export const DATA = 'https://23.javascript.pages.academy/keksobooking/data';
 export const RERENDER_DELAY = 500;
 
 export const ERROR_POST_MESSAGE = 'Не удалось отправить форму. Попробуйте ещё раз';
+
+export const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+export const DEFAULT_AVATAR = 'img/muffin-grey.svg';

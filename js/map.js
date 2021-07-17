@@ -73,7 +73,7 @@ const mainPinMarker = L.marker(
   },
 );
 
-// добавляю иконки
+// добавляю иконки на карту
 const icon = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [PIN, PIN],
