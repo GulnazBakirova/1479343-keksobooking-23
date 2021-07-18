@@ -9,7 +9,7 @@ import {
 import {
   showModal,
   resetPage,
-  pictureFormat
+  checkPictureFormat
 } from './util.js';
 
 import {
@@ -44,7 +44,7 @@ const housingImagePreview = form.querySelector('.ad-form__photo');
 avatarInput.addEventListener('change', () => {
   const file = avatarInput.files[0];
   const fileName = file.name;
-  if (pictureFormat(fileName)) {
+  if (checkPictureFormat(fileName)) {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
       avatarImagePreview.src = reader.result;
@@ -57,7 +57,7 @@ avatarInput.addEventListener('change', () => {
 housingImageInput.addEventListener('change', () => {
   const file = housingImageInput.files[0];
   const fileName = file.name;
-  if (pictureFormat(fileName)) {
+  if (checkPictureFormat(fileName)) {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
       const image = reader.result;

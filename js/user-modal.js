@@ -7,7 +7,7 @@ import {
 } from './data.js';
 
 
-export const errorGetData = document.querySelector('.error-data');
+const errorGetData = document.querySelector('.error-data');
 
 const main = document.querySelector('main');
 const successMesage = document.querySelector('#success')
@@ -36,7 +36,7 @@ const addOfferFormSubmit = (onSuccess, onError) => {
   });
 };
 
-export const closeModal = (response) => {
+const closeModal = (response) => {
   response.classList.add('hidden');
 };
 
@@ -60,7 +60,7 @@ const closeSuccessModal = () => {
   document.removeEventListener('keydown', escapeSuccessKeydownHandler);
 };
 
-export const openModal = () => {
+const openModal = () => {
   const successPopUp = successMesage.cloneNode(true);
   document.addEventListener('keydown', escapeSuccessKeydownHandler);
   document.addEventListener('click', closeSuccessModal);
@@ -100,3 +100,9 @@ const createSuccessSubmission = () => {
 };
 
 addOfferFormSubmit(createSuccessSubmission, createErrorMesage);
+
+export {
+  errorGetData,
+  closeModal,
+  openModal
+};

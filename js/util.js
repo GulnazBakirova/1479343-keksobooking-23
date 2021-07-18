@@ -44,7 +44,7 @@ export const showModal = (response) => {
 };
 
 // валидация на формат картинки
-export const pictureFormat = (pictureName) => {
+export const checkPictureFormat = (pictureName) => {
   pictureName.toLowerCase();
   return FILE_TYPES.some((fileTypes) => pictureName.endsWith(fileTypes));
 };
