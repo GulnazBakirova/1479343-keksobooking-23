@@ -6,8 +6,8 @@ import {
   SERVER
 } from './data.js';
 
-
 const errorGetData = document.querySelector('.error-data');
+const resetFormButton = document.querySelector('.ad-form__reset');
 
 const main = document.querySelector('main');
 const successMesage = document.querySelector('#success')
@@ -15,10 +15,8 @@ const successMesage = document.querySelector('#success')
 const errorMesage = document.querySelector('#error')
   .content;
 const addOfferForm = document.querySelector('.ad-form');
-const Keys = {
-  ESCAPE: 'Escape',
-  ESC: 'Esc',
-};
+
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 const addOfferFormSubmit = (onSuccess, onError) => {
 
@@ -45,7 +43,7 @@ const escapeSuccessKeydownHandler = (evt) => {
 
   evt.preventDefault();
 
-  if (evt.key === Keys.ESCAPE || evt.key === Keys.ESC) {
+  if (isEscEvent(evt)) {
     popUp.remove();
   }
 
@@ -79,7 +77,7 @@ const escapeErrorKeydownHandler = (evt) => {
 
   evt.preventDefault();
 
-  if (evt.key === Keys.ESCAPE || evt.key === Keys.ESC) {
+  if (isEscEvent(evt)) {
     popUpError.remove();
   }
 
@@ -93,6 +91,11 @@ const closeErrorModal = () => {
   document.removeEventListener('click', closeErrorModal);
   document.removeEventListener('keydown', escapeErrorKeydownHandler);
 };
+
+resetFormButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetPage();
+});
 
 const createSuccessSubmission = () => {
   openModal();

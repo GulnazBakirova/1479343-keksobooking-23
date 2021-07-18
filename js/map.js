@@ -131,5 +131,10 @@ const refreshMap = () => {
   );
 };
 
-
-export {refreshMap, getOffers, getMarkers, showPins, hidePins};
+export {
+  refreshMap,
+  getOffers,
+  getMarkers,
+  showPins,
+  hidePins
+};

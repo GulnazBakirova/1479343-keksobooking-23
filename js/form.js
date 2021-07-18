@@ -40,6 +40,33 @@ const avatarImagePreview = form.querySelector('.ad-form-header__preview img');
 const housingImageInput = form.querySelector('#images');
 const housingImagePreview = form.querySelector('.ad-form__photo');
 
+const guestNumber = capacity.querySelectorAll('option');
+const NumberOfGuests = {
+  1: ['1'],
+  2: ['1', '2'],
+  3: ['1', '2', '3'],
+  100: ['0'],
+};
+
+const validateRooms = () => {
+  const roomValue = roomNumber.value;
+
+  guestNumber.forEach((guest) => {
+    const isDisabled = (NumberOfGuests[roomValue].indexOf(guest.value) === -1);
+    guest.selected = NumberOfGuests[roomValue][0] === guest.value;
+    guest.disabled = isDisabled;
+    guest.hidden = isDisabled;
+  });
+};
+
+validateRooms();
+
+const onRoomNumberChange = () => {
+  validateRooms();
+};
+
+roomNumber.addEventListener('change', onRoomNumberChange);
+
 // ставлю обработчик инпута для выбора файлов на аватарку
 avatarInput.addEventListener('change', () => {
   const file = avatarInput.files[0];
