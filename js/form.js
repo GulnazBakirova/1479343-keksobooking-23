@@ -5,20 +5,20 @@ import {
   MIN_TITLE_LENGTH,
   NO_ROOMS
 } from './data.js';
-import {
-  success,
-  error
-} from './user-modal.js';
+
 import {
   showModal,
   resetPage,
   pictureFormat
 } from './util.js';
+
 import {
   sendData
 } from './api.js';
 
 const form = document.querySelector('.ad-form');
+const error = document.querySelector('.error');
+const success = document.querySelector('.success');
 
 const titleInput = form.querySelector('#title');
 const typeInput = form.querySelector('#type');
@@ -198,5 +198,7 @@ export {
   changeFormState,
   changeFilterState,
   avatarImagePreview,
-  housingImagePreview
+  housingImagePreview,
+  error,
+  success
 };

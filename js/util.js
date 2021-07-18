@@ -5,8 +5,7 @@ import {
 } from './data.js';
 
 import {
-  openModal,
-  success
+  openModal
 } from './user-modal.js';
 
 import {
@@ -18,8 +17,10 @@ import {
   form,
   mapFilters,
   avatarImagePreview,
-  housingImagePreview
+  housingImagePreview,
+  success
 } from './form.js';
+
 
 // сброс страницы
 export const resetPage = () => {

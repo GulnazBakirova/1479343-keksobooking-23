@@ -61,7 +61,7 @@ export const filterPins = (offers, markers) => {
 
   const filterByCheckboxes = (array, parameter) => {
     const features = [...mapFilters.querySelectorAll('input[type="checkbox"]:checked')];
-    const featuresValues = features.map((feature) => feature.value);
+    const featuresValues = features.map(feature => feature.value);
     if (features.length === 0) {
       return array;
     }
