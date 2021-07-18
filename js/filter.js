@@ -15,6 +15,8 @@ import {
   showPins
 } from './map.js';
 
+const ERROR = 'Ошибка!';
+
 const debounce = (func, wait, immediate) => {
   let timeout;
   return function() {
@@ -55,13 +57,13 @@ export const filterPins = (offers, markers) => {
       case 'middle':
         return +offer[parameter] <= PRICE.high && +offer[parameter] >= PRICE.low;
       default:
-        return;
+        return ERROR;
     }
   });
 
   const filterByCheckboxes = (array, parameter) => {
     const features = [...mapFilters.querySelectorAll('input[type="checkbox"]:checked')];
-    const featuresValues = features.map(feature => feature.value);
+    const featuresValues = features.map((feature) => feature.value);
     if (features.length === 0) {
       return array;
     }
