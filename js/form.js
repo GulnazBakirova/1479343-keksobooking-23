@@ -1,20 +1,14 @@
 import {
-  MAX_ROOMS,
   MAX_TITLE_LENGTH,
-  MIN_PRICE,
   MIN_TITLE_LENGTH,
-  NO_ROOMS
+  MIN_PRICE
 } from './data.js';
 
 import {
-  showModal,
   resetPage,
   checkPictureFormat
 } from './util.js';
 
-import {
-  sendData
-} from './api.js';
 
 const form = document.querySelector('.ad-form');
 const error = document.querySelector('.error');
@@ -40,32 +34,16 @@ const avatarImagePreview = form.querySelector('.ad-form-header__preview img');
 const housingImageInput = form.querySelector('#images');
 const housingImagePreview = form.querySelector('.ad-form__photo');
 
+
+const formTime = form.querySelector('.ad-form__element--time');
 const guestNumber = capacity.querySelectorAll('option');
+
 const NumberOfGuests = {
   1: ['1'],
   2: ['1', '2'],
   3: ['1', '2', '3'],
   100: ['0'],
 };
-
-const validateRooms = () => {
-  const roomValue = roomNumber.value;
-
-  guestNumber.forEach((guest) => {
-    const isDisabled = (NumberOfGuests[roomValue].indexOf(guest.value) === -1);
-    guest.selected = NumberOfGuests[roomValue][0] === guest.value;
-    guest.disabled = isDisabled;
-    guest.hidden = isDisabled;
-  });
-};
-
-validateRooms();
-
-const onRoomNumberChange = () => {
-  validateRooms();
-};
-
-roomNumber.addEventListener('change', onRoomNumberChange);
 
 // ставлю обработчик инпута для выбора файлов на аватарку
 avatarInput.addEventListener('change', () => {
@@ -122,64 +100,38 @@ const changeFilterState = (node, condition) => {
   }
 };
 
-const changeTypeHandler = (targetValue) => {
-  const price = MIN_PRICE[targetValue];
-  priceInput.min = price;
-  priceInput.placeholder = price;
+const onTypeOfHouseChange = () => {
+  const minPrice = MIN_PRICE[typeInput.value];
+  priceInput.placeholder = minPrice;
+  priceInput.min = minPrice;
 };
 
-const changeTimeHandler = (targetValue) => {
-  checkOut.value = targetValue;
-  checkIn.value = targetValue;
+typeInput.addEventListener('change', onTypeOfHouseChange);
+
+formTime.addEventListener('change', (evt) => {
+  checkOut.value = evt.target.value;
+  checkIn.value = evt.target.value;
+});
+
+
+const validateRooms = () => {
+  const roomValue = roomNumber.value;
+
+  guestNumber.forEach((guest) => {
+    const isDisabled = (NumberOfGuests[roomValue].indexOf(guest.value) === -1);
+    guest.selected = NumberOfGuests[roomValue][0] === guest.value;
+    guest.disabled = isDisabled;
+    guest.hidden = isDisabled;
+  });
 };
 
-const getOptionsHandler = (options) => {
-  let memoOptions = [];
+validateRooms();
 
-  return (targetValue) => {
-    memoOptions.forEach((item) => {
-      item.disabled = false;
-    });
-
-    const index = options.findIndex((elem) => elem.value === targetValue);
-    const arrayToDisabled = index !== -1 ? options.slice(index + 1) : options.slice(0, options.length - 1);
-    arrayToDisabled.forEach((item) => {
-      item.disabled = true;
-    });
-
-    memoOptions = [...arrayToDisabled];
-  };
+const onRoomNumberChange = () => {
+  validateRooms();
 };
 
-const getCapacityHandler = getOptionsHandler([...capacity]);
-getCapacityHandler(roomNumber.value);
-
-const selectCapacityHandler = (targetValue) => {
-  capacity.value = +targetValue === MAX_ROOMS ? NO_ROOMS : targetValue;
-  getCapacityHandler(targetValue);
-};
-
-const changeHandler = (e) => {
-  const targetInput = e.target;
-  const targetValue = targetInput.value;
-
-  switch (targetInput) {
-    case typeInput:
-      changeTypeHandler(targetValue);
-      break;
-    case checkIn:
-      changeTimeHandler(targetValue);
-      break;
-    case checkOut:
-      changeTimeHandler(targetValue);
-      break;
-    case roomNumber:
-      selectCapacityHandler(targetValue);
-      break;
-    default:
-      break;
-  }
-};
+roomNumber.addEventListener('change', onRoomNumberChange);
 
 // валидация на достаточную длину строки title
 const checkTitleInputHandler = () => {
@@ -200,19 +152,8 @@ const resetHandler = (evt) => {
   resetPage();
 };
 
-//отправка формы
-const sendOfferFormSubmit = (evt) => {
-  evt.preventDefault();
-  sendData(
-    () => showModal(success),
-    () => showModal(error),
-    new FormData(evt.target),
-  );
-};
 
 // ставлю обработчики на форму
-form.addEventListener('change', changeHandler);
-form.addEventListener('submit', sendOfferFormSubmit);
 titleInput.addEventListener('input', checkTitleInputHandler);
 resetButton.addEventListener('click', resetHandler);
 

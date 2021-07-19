@@ -40,15 +40,13 @@ const closeModal = (response) => {
 
 const escapeSuccessKeydownHandler = (evt) => {
   const popUp = main.querySelector('.success');
-
   evt.preventDefault();
 
   if (isEscEvent(evt)) {
     popUp.remove();
+    document.removeEventListener('keydown', escapeSuccessKeydownHandler);
+    document.removeEventListener('click', closeSuccessModal);
   }
-
-  document.removeEventListener('keydown', escapeSuccessKeydownHandler);
-  document.removeEventListener('click', closeSuccessModal);
 };
 
 const closeSuccessModal = () => {

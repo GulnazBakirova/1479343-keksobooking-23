@@ -17,8 +17,6 @@ export const AVATAR_DEFAULT = 'img/muffin-grey.svg';
 export const MAX_DECIMAL_NUMBERS = 5;
 export const MIN_TITLE_LENGTH = 30;
 export const MAX_TITLE_LENGTH = 100;
-export const MAX_ROOMS = 100;
-export const NO_ROOMS = 0;
 
 export const TOKYO_LAT = 35.6895;
 export const TOKYO_LNG = 139.69171;
