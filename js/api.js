@@ -1,9 +1,8 @@
 import {
   DATA,
-  SERVER
+  SERVER,
+  ERROR_POST_MESSAGE
 } from './data.js';
-
-const form = document.querySelector('.ad-form');
 
 // метод для получения данных
 export const getData = (onSuccess) => {
@@ -15,17 +14,22 @@ export const getData = (onSuccess) => {
 };
 
 // метод для отправки данных
-export const sendData = (onSuccess, onError) => {
-  form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const formData = new FormData(evt.target);
-    fetch(
-      SERVER,
-      {
-        method: 'POST',
-        body: formData,
-      },
-    ).then(() => onSuccess())
-      .catch(() => onError());
-  });
+export const sendData = (onSuccess, onFail, body) => {
+  fetch(
+    SERVER,
+    {
+      method: 'POST',
+      body,
+    },
+  )
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onFail(ERROR_POST_MESSAGE);
+      }
+    })
+    .catch(() => {
+      onFail(ERROR_POST_MESSAGE);
+    });
 };

@@ -1,14 +1,10 @@
 import {
   housingTypes,
-  checkInOut
+  checkInOut,
+  GuestsQuantity,
+  IMAGE_WIDTH,
+  IMAGE_HEIGHT
 } from './data.js';
-
-const GuestsQuantity = {
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-  HUNDRED: 100,
-};
 
 // в попапе синхронизация поля «Количество комнат» с полем «Количество мест»
 const getCapacityOfRooms = (guests, rooms) => {
@@ -28,7 +24,7 @@ const getCapacityOfRooms = (guests, rooms) => {
   }
 
   if (typeof guests === 'number') {
-    return capacity += `для ${guests} гост${guests === 1 ? 'я' : 'ей'}.`;
+    return capacity += `для ${guests} гост${guests === GuestsQuantity.ONE ? 'я' : 'ей'}.`;
   }
   return capacity;
 };
@@ -55,8 +51,8 @@ const renderPhotos = function (array, photoElement) {
     image.classList.add('popup__photo');
     image.alt = 'Фотография жилья';
     image.src = element;
-    image.width = 50;
-    image.height = 50;
+    image.width = IMAGE_WIDTH;
+    image.height = IMAGE_HEIGHT;
     fragment.appendChild(image);
   });
 

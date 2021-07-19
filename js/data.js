@@ -40,6 +40,9 @@ export const PRICE_FILTER = 'price';
 export const ROOMS_FILTER = 'rooms';
 export const GUESTS_FILTER = 'guests';
 
+export const IMAGE_WIDTH = 50;
+export const IMAGE_HEIGHT = 50;
+
 export const housing = /housing-/;
 
 export const minPrices = {
@@ -72,4 +75,11 @@ export const NumberOfGuests = {
   2: ['1', '2'],
   3: ['1', '2', '3'],
   100: ['0'],
+};
+
+export const GuestsQuantity = {
+  ONE: 1,
+  TWO: 2,
+  THREE: 3,
+  HUNDRED: 100,
 };

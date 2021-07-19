@@ -7,6 +7,7 @@ import {
   sendData
 } from './api.js';
 
+const form = document.querySelector('.ad-form');
 const errorGetData = document.querySelector('.error-data');
 const resetButton = document.querySelector('.ad-form__reset');
 const main = document.querySelector('main');
@@ -80,7 +81,12 @@ const createSuccessSubmission = () => {
   resetPage();
 };
 
-sendData(createSuccessSubmission, createErrorMesage);
+form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+    sendData(createSuccessSubmission, createErrorMesage, formData);
+});
+
 
 export {
   errorGetData,
