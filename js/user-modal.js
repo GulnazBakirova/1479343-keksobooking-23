@@ -1,5 +1,6 @@
 import {
-  resetPage
+  resetPage,
+  isEscEvent
 } from './util.js';
 
 import {
@@ -7,20 +8,16 @@ import {
 } from './data.js';
 
 const errorGetData = document.querySelector('.error-data');
-const resetFormButton = document.querySelector('.ad-form__reset');
-
+const resetButton = document.querySelector('.ad-form__reset');
+const form = document.querySelector('.ad-form');
 const main = document.querySelector('main');
 const successMesage = document.querySelector('#success')
   .content;
 const errorMesage = document.querySelector('#error')
   .content;
-const addOfferForm = document.querySelector('.ad-form');
 
-const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
-
-const addOfferFormSubmit = (onSuccess, onError) => {
-
-  addOfferForm.addEventListener('submit', (evt) => {
+const submitAdForm = (onSuccess, onError) => {
+  form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     fetch(
@@ -32,10 +29,6 @@ const addOfferFormSubmit = (onSuccess, onError) => {
     ).then(() => onSuccess())
       .catch(() => onError());
   });
-};
-
-const closeModal = (response) => {
-  response.classList.add('hidden');
 };
 
 const escapeSuccessKeydownHandler = (evt) => {
@@ -93,7 +86,7 @@ function closeErrorModal () {
   document.removeEventListener('keydown', escapeErrorKeydownHandler);
 }
 
-resetFormButton.addEventListener('click', (evt) => {
+resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetPage();
 });
@@ -103,10 +96,9 @@ const createSuccessSubmission = () => {
   resetPage();
 };
 
-addOfferFormSubmit(createSuccessSubmission, createErrorMesage);
+submitAdForm(createSuccessSubmission, createErrorMesage);
 
 export {
   errorGetData,
-  closeModal,
   openModal
 };

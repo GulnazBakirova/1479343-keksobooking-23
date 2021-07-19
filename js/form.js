@@ -1,7 +1,8 @@
 import {
   MAX_TITLE_LENGTH,
   MIN_TITLE_LENGTH,
-  MIN_PRICE
+  MIN_PRICES,
+  NumberOfGuests
 } from './data.js';
 
 import {
@@ -37,13 +38,6 @@ const housingImagePreview = form.querySelector('.ad-form__photo');
 
 const formTime = form.querySelector('.ad-form__element--time');
 const guestNumber = capacity.querySelectorAll('option');
-
-const NumberOfGuests = {
-  1: ['1'],
-  2: ['1', '2'],
-  3: ['1', '2', '3'],
-  100: ['0'],
-};
 
 // ставлю обработчик инпута для выбора файлов на аватарку
 avatarInput.addEventListener('change', () => {
@@ -100,13 +94,13 @@ const changeFilterState = (node, condition) => {
   }
 };
 
-const onTypeOfHouseChange = () => {
-  const minPrice = MIN_PRICE[typeInput.value];
+const changeTypeOfHouse = () => {
+  const minPrice = MIN_PRICES[typeInput.value];
   priceInput.placeholder = minPrice;
   priceInput.min = minPrice;
 };
 
-typeInput.addEventListener('change', onTypeOfHouseChange);
+typeInput.addEventListener('change', changeTypeOfHouse);
 
 formTime.addEventListener('change', (evt) => {
   checkOut.value = evt.target.value;
@@ -127,11 +121,11 @@ const validateRooms = () => {
 
 validateRooms();
 
-const onRoomNumberChange = () => {
+const changeRoomNumber = () => {
   validateRooms();
 };
 
-roomNumber.addEventListener('change', onRoomNumberChange);
+roomNumber.addEventListener('change', changeRoomNumber);
 
 // валидация на достаточную длину строки title
 const checkTitleInputHandler = () => {

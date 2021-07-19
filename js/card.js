@@ -1,15 +1,7 @@
-const housingTypes = {
-  palace: 'Дворец',
-  house: 'Дом',
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  hotel: 'Отель',
-};
-
-const checkInOut = [
-  'checkin',
-  'checkout',
-];
+import {
+  housingTypes,
+  checkInOut
+} from './data.js';
 
 // в попапе синхронизация поля «Количество комнат» с полем «Количество мест»
 const getCapacityOfRooms = (guests, rooms) => {

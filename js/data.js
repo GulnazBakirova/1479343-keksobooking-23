@@ -1,13 +1,13 @@
 export const PINS_AMOUNT = 10;
 
-export const MIN_PRICE = {
+export const MIN_PRICES = {
   flat: 1000,
   bungalow: 0,
   house: 5000,
   palace: 10000,
   hotel: 3000,
 };
-export const PRICE = {
+export const PRICES = {
   low: 10000,
   high: 50000,
 };
@@ -37,6 +37,27 @@ export const DATA = 'https://23.javascript.pages.academy/keksobooking/data';
 export const RERENDER_DELAY = 500;
 
 export const ERROR_POST_MESSAGE = 'Не удалось отправить форму. Попробуйте ещё раз';
+export const ERROR = 'Ошибка!';
 
 export const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 export const DEFAULT_AVATAR = 'img/muffin-grey.svg';
+
+export  const housingTypes = {
+  palace: 'Дворец',
+  house: 'Дом',
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  hotel: 'Отель',
+};
+
+export  const checkInOut = [
+  'checkin',
+  'checkout',
+];
+
+export const NumberOfGuests = {
+  1: ['1'],
+  2: ['1', '2'],
+  3: ['1', '2', '3'],
+  100: ['0'],
+};

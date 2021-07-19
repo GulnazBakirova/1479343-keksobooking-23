@@ -1,8 +1,7 @@
-// фильтрация
-
 import {
-  PRICE,
-  RERENDER_DELAY
+  PRICES,
+  RERENDER_DELAY,
+  ERROR
 } from './data.js';
 
 import {
@@ -15,25 +14,10 @@ import {
   showPins
 } from './map.js';
 
-const ERROR = 'Ошибка!';
+import {
+  debounce
+} from './util.js';
 
-const debounce = (func, wait, immediate) => {
-  let timeout;
-  return function() {
-    const context = this;
-    const args = arguments;
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      timeout = null;
-      if (!immediate) {
-        func.apply(context, args);
-      }
-    }, wait);
-    if (immediate && !timeout) {
-      func.apply(context, args);
-    }
-  };
-};
 
 export const filterPins = (offers, markers) => {
   const getFilterParameter = (evt) => {
@@ -51,11 +35,11 @@ export const filterPins = (offers, markers) => {
   const filterByPrice = (array, parameter, value) => value === 'any' ? array : array.filter((offer) => {
     switch (value) {
       case 'low':
-        return +offer[parameter] < PRICE.low;
+        return +offer[parameter] < PRICES.low;
       case 'high':
-        return +offer[parameter] > PRICE.high;
+        return +offer[parameter] > PRICES.high;
       case 'middle':
-        return +offer[parameter] <= PRICE.high && +offer[parameter] >= PRICE.low;
+        return +offer[parameter] <= PRICES.high && +offer[parameter] >= PRICES.low;
       default:
         return ERROR;
     }

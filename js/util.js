@@ -49,3 +49,23 @@ export const checkPictureFormat = (pictureName) => {
   return FILE_TYPES.some((fileTypes) => pictureName.endsWith(fileTypes));
 };
 
+export const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
+export const debounce = (func, wait, immediate) => {
+  let timeout;
+  return function() {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = null;
+      if (!immediate) {
+        func.apply(context, args);
+      }
+    }, wait);
+    if (immediate && !timeout) {
+      func.apply(context, args);
+    }
+  };
+};
+
