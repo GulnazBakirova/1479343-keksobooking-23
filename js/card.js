@@ -48,28 +48,35 @@ const getCurrentOffer = (currentOffer) => {
 };
 
 // рендер и показ картинок жилья в попапе
-const renderPhotos = function (array) {
+const renderPhotos = function (array, photoElement) {
   const fragment = document.createDocumentFragment();
   array.forEach((element) => {
     const image = document.createElement('img');
     image.classList.add('popup__photo');
-    image.src = element;
     image.alt = 'Фотография жилья';
+    image.src = element;
+    image.width = 50;
+    image.height = 50;
     fragment.appendChild(image);
   });
-  return fragment;
+
+  photoElement.innerHTML = '';
+  photoElement.appendChild(fragment);
 };
 
+
 // рендер и показ части features в попапе
-const renderFeatures = function (array) {
+const renderFeatures = function (array, featureElement) {
   const fragment = document.createDocumentFragment();
   array.forEach((element) => {
     const container = document.createElement('li');
-    container.className = 'feature';
-    container.classList.add(`feature--${element}`);
+    container.classList.add('popup__feature');
+    container.classList.add(`popup__feature--${element}`);
     fragment.appendChild(container);
   });
-  return fragment;
+
+  featureElement.innerHTML = '';
+  featureElement.appendChild(fragment);
 };
 
 

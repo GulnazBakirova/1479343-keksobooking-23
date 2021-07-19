@@ -35,6 +35,13 @@ export const LOW = 'low';
 export const MIDDLE = 'middle';
 export const HIGH = 'high';
 
+export const TYPE_FILTER = 'type';
+export const PRICE_FILTER = 'price';
+export const ROOMS_FILTER = 'rooms';
+export const GUESTS_FILTER = 'guests';
+
+export const housing = /housing-/;
+
 export const minPrices = {
   flat: 1000,
   bungalow: 0,

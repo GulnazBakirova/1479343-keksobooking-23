@@ -5,7 +5,12 @@ import {
   ANY,
   LOW,
   MIDDLE,
-  HIGH
+  HIGH,
+  TYPE_FILTER,
+  PRICE_FILTER,
+  ROOMS_FILTER,
+  GUESTS_FILTER,
+  housing
 } from './data.js';
 
 import {
@@ -26,7 +31,7 @@ export const filterPins = (offers, markers) => {
   const getFilterParameter = (evt) => {
     const target = evt.target;
     return {
-      parameter: target.name.replace(/housing-/, ''),
+      parameter: target.name.replace(housing, ''),
       value: target.value,
     };
   };
@@ -48,33 +53,44 @@ export const filterPins = (offers, markers) => {
     }
   });
 
-  const filterByCheckboxes = (array, parameter) => {
+  const filterByCheckboxes = (array) => {
     const features = [...mapFilters.querySelectorAll('input[type="checkbox"]:checked')];
     const featuresValues = features.map((feature) => feature.value);
     if (features.length === 0) {
       return array;
     }
-    else {
-      return array.filter((offer) => JSON.stringify(featuresValues) === JSON.stringify(offer[parameter]));
-    }
+    return array.filter((advert) => {
+      let isAllFeaturesInOffer = true;
+      if (!advert.features || advert.features === 0) {
+        return false;
+      }
+      for (let i = 0; i < featuresValues.length; i++) {
+        if (!advert.features.includes(featuresValues[i])) {
+          isAllFeaturesInOffer = false;
+          break;
+        }
+      }
+      return isAllFeaturesInOffer;
+
+    });
   };
 
   const filters = {
     result: [],
     byType(value) {
-      this.result = filterByType(this.result, 'type', value);
+      this.result = filterByType(this.result, TYPE_FILTER, value);
       return this;
     },
     byPrice(value) {
-      this.result = filterByPrice(this.result, 'price', value);
+      this.result = filterByPrice(this.result, PRICE_FILTER, value);
       return this;
     },
     byRooms(value) {
-      this.result = filterByCapacity(this.result, 'rooms', value);
+      this.result = filterByCapacity(this.result, ROOMS_FILTER, value);
       return this;
     },
     byGuests(value) {
-      this.result = filterByCapacity(this.result, 'guests', value);
+      this.result = filterByCapacity(this.result, GUESTS_FILTER, value);
       return this;
     },
     byFeatures() {
