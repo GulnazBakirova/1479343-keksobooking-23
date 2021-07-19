@@ -82,9 +82,9 @@ const createSuccessSubmission = () => {
 };
 
 form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const formData = new FormData(evt.target);
-    sendData(createSuccessSubmission, createErrorMesage, formData);
+  evt.preventDefault();
+  const formData = new FormData(evt.target);
+  sendData(createSuccessSubmission, createErrorMesage, formData);
 });
 
 
