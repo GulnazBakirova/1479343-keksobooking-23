@@ -1,8 +1,16 @@
-// фильтрация
-
 import {
-  PRICE,
-  RERENDER_DELAY
+  prices,
+  RERENDER_DELAY,
+  ERROR,
+  ANY,
+  LOW,
+  MIDDLE,
+  HIGH,
+  TYPE_FILTER,
+  PRICE_FILTER,
+  ROOMS_FILTER,
+  GUESTS_FILTER,
+  housing
 } from './data.js';
 
 import {
@@ -15,75 +23,74 @@ import {
   showPins
 } from './map.js';
 
-const debounce = (cb) => {
-  let lastTimeout = null;
-
-  return function () {
-    const parameters = arguments;
-
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-
-    lastTimeout = window.setTimeout(function () {
-      cb.apply(null, parameters);
-    }, RERENDER_DELAY);
-  };
-};
+import {
+  debounce
+} from './util.js';
 
 export const filterPins = (offers, markers) => {
   const getFilterParameter = (evt) => {
     const target = evt.target;
     return {
-      parameter: target.name.replace(/housing-/, ''),
+      parameter: target.name.replace(housing, ''),
       value: target.value,
     };
   };
 
-  const filterByType = (array, parameter, value) => value === 'any' ? array : array.filter(offer => offer[parameter] === value);
+  const filterByType = (array, parameter, value) => value === ANY ? array : array.filter((offer) => offer[parameter] === value);
 
-  const filterByCapacity = (array, parameter, value) => value === 'any' ? array : array.filter(offer => offer[parameter] === +value);
+  const filterByCapacity = (array, parameter, value) => value === ANY ? array : array.filter((offer) => offer[parameter] === +value);
 
-  const filterByPrice = (array, parameter, value) => value === 'any' ? array : array.filter(offer => {
+  const filterByPrice = (array, parameter, value) => value === ANY ? array : array.filter((offer) => {
     switch (value) {
-      case 'low':
-        return +offer[parameter] < PRICE.low;
-      case 'high':
-        return +offer[parameter] > PRICE.high;
-      case 'middle':
-        return +offer[parameter] <= PRICE.high && +offer[parameter] >= PRICE.low;
+      case LOW:
+        return +offer[parameter] < prices.low;
+      case HIGH:
+        return +offer[parameter] > prices.high;
+      case MIDDLE:
+        return +offer[parameter] <= prices.high && +offer[parameter] >= prices.low;
       default:
-        return;
+        return ERROR;
     }
   });
 
-  const filterByCheckboxes = (array, parameter) => {
+  const filterByCheckboxes = (array) => {
     const features = [...mapFilters.querySelectorAll('input[type="checkbox"]:checked')];
-    const featuresValues = features.map(feature => feature.value);
+    const featuresValues = features.map((feature) => feature.value);
     if (features.length === 0) {
       return array;
     }
-    else {
-      return array.filter(offer => JSON.stringify(featuresValues) === JSON.stringify(offer[parameter]));
-    }
+    return array.filter((advert) => {
+      let isAllFeaturesInOffer = true;
+      if (!advert.features || advert.features === 0) {
+        return false;
+      }
+      for (let i = 0; i < featuresValues.length; i++) {
+        if (!advert.features.includes(featuresValues[i])) {
+          isAllFeaturesInOffer = false;
+          break;
+        }
+      }
+      return isAllFeaturesInOffer;
+
+    });
   };
 
-  const Filters = {
+  const filters = {
     result: [],
     byType(value) {
-      this.result = filterByType(this.result, 'type', value);
+      this.result = filterByType(this.result, TYPE_FILTER, value);
       return this;
     },
     byPrice(value) {
-      this.result = filterByPrice(this.result, 'price', value);
+      this.result = filterByPrice(this.result, PRICE_FILTER, value);
       return this;
     },
     byRooms(value) {
-      this.result = filterByCapacity(this.result, 'rooms', value);
+      this.result = filterByCapacity(this.result, ROOMS_FILTER, value);
       return this;
     },
     byGuests(value) {
-      this.result = filterByCapacity(this.result, 'guests', value);
+      this.result = filterByCapacity(this.result, GUESTS_FILTER, value);
       return this;
     },
     byFeatures() {
@@ -96,26 +103,26 @@ export const filterPins = (offers, markers) => {
   const createFilterChangeHandler = () => {
     let filteredMarkers = [...markers];
     const filterValues = {
-      type: 'any',
-      price: 'any',
-      rooms: 'any',
-      guests: 'any',
+      type: ANY,
+      price: ANY,
+      rooms: ANY,
+      guests: ANY,
     };
 
     return (evt) => {
       const { parameter, value } = getFilterParameter(evt);
       hidePins(filteredMarkers);
 
-      Filters.result = [...offers];
+      filters.result = [...offers];
       filterValues[parameter] = value;
-      Filters
+      filters
         .byType(filterValues.type)
         .byPrice(filterValues.price)
         .byRooms(filterValues.rooms)
         .byGuests(filterValues.guests)
         .byFeatures();
 
-      filteredMarkers = getMarkers(Filters.result);
+      filteredMarkers = getMarkers(filters.result);
       showPins(filteredMarkers);
     };
   };

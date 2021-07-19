@@ -1,7 +1,7 @@
 import {
-  ERROR_POST_MESSAGE,
   DATA,
-  SERVER
+  SERVER,
+  ERROR_POST_MESSAGE
 } from './data.js';
 
 // метод для получения данных
@@ -16,7 +16,8 @@ export const getData = (onSuccess) => {
 // метод для отправки данных
 export const sendData = (onSuccess, onFail, body) => {
   fetch(
-    SERVER, {
+    SERVER,
+    {
       method: 'POST',
       body,
     },

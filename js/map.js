@@ -73,7 +73,7 @@ const mainPinMarker = L.marker(
   },
 );
 
-// добавляю иконки
+// добавляю иконки на карту
 const icon = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [PIN, PIN],
@@ -87,11 +87,11 @@ mainPinMarker.on('moveend', (e) => {
   addressInput.value = `${coordinates.lat.toFixed(MAX_DECIMAL_NUMBERS)}, ${coordinates.lng.toFixed(MAX_DECIMAL_NUMBERS)}`;
 });
 
-const getOffers = offers => offers.map(item => getCurrentOffer(item));
+const getOffers = (offers) => offers.map((item) => getCurrentOffer(item));
 
 // добавляю попап к меткам объявлений
-const getMarkers = (pins) => {
-  return pins.slice(0, PINS_AMOUNT).map(pin => L.marker(
+const getMarkers = (pins) =>
+  pins.slice(0, PINS_AMOUNT).map((pin) => L.marker(
     {
       lat: pin.lat,
       lng: pin.lng,
@@ -105,11 +105,10 @@ const getMarkers = (pins) => {
       keepInView: true,
     },
   ));
-};
 
-const showPins = (markers) => markers.forEach(marker => marker.addTo(map));
+const showPins = (markers) => markers.forEach((marker) => marker.addTo(map));
 
-const hidePins = (markers) => markers.forEach(marker => marker.remove());
+const hidePins = (markers) => markers.forEach((marker) => marker.remove());
 
 // возвращение к начальным значениям масштаба и центра карты
 const refreshMap = () => {
@@ -131,5 +130,10 @@ const refreshMap = () => {
   );
 };
 
-
-export {refreshMap, getOffers, getMarkers, showPins, hidePins};
+export {
+  refreshMap,
+  getOffers,
+  getMarkers,
+  showPins,
+  hidePins
+};
