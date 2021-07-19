@@ -1,33 +1,24 @@
 import {
-  MAX_ROOMS,
   MAX_TITLE_LENGTH,
-  MIN_PRICE,
   MIN_TITLE_LENGTH,
-  NO_ROOMS
+  minPrices,
+  NumberOfGuests
 } from './data.js';
+
 import {
-  success,
-  error
-} from './user-modal.js';
-import {
-  showModal,
   resetPage,
-  isPicture
+  checkPictureFormat
 } from './util.js';
-import {
-  sendData
-} from './api.js';
+
 
 const form = document.querySelector('.ad-form');
+const error = document.querySelector('.error');
+const success = document.querySelector('.success');
 
 const titleInput = form.querySelector('#title');
 const typeInput = form.querySelector('#type');
 const priceInput = form.querySelector('#price');
 const addressInput = form.querySelector('#address');
-const avatarInput = form.querySelector('#avatar');
-const avatarPreview = form.querySelector('.ad-form-header__preview img');
-const housingImage = form.querySelector('#images');
-const housingImagePreview = form.querySelector('.ad-form__photo');
 
 const formChildren = [...form.children];
 const mapFilters = document.querySelector('.map__filters');
@@ -39,24 +30,33 @@ const checkOut = form.querySelector('#timeout');
 const roomNumber = form.querySelector('#room_number');
 const capacity = form.querySelector('#capacity');
 
+const avatarInput = document.querySelector('#avatar');
+const avatarImagePreview = form.querySelector('.ad-form-header__preview img');
+const housingImageInput = form.querySelector('#images');
+const housingImagePreview = form.querySelector('.ad-form__photo');
+
+
+const formTime = form.querySelector('.ad-form__element--time');
+const guestNumber = capacity.querySelectorAll('option');
+
 // ставлю обработчик инпута для выбора файлов на аватарку
 avatarInput.addEventListener('change', () => {
   const file = avatarInput.files[0];
   const fileName = file.name;
-  if (isPicture(fileName)) {
+  if (checkPictureFormat(fileName)) {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
-      avatarPreview.src = reader.result;
+      avatarImagePreview.src = reader.result;
     });
     reader.readAsDataURL(file);
   }
 });
 
 // ставлю обработчик инпута для выбора файлов на картинку жилья
-housingImage.addEventListener('change', () => {
-  const file = housingImage.files[0];
+housingImageInput.addEventListener('change', () => {
+  const file = housingImageInput.files[0];
   const fileName = file.name;
-  if (isPicture(fileName)) {
+  if (checkPictureFormat(fileName)) {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
       const image = reader.result;
@@ -67,9 +67,10 @@ housingImage.addEventListener('change', () => {
   }
 });
 
+
 // при загрузке страницы форма находится в неактивном состоянии
-const changeFormState (node, condition) => {
-  node.forEach(element => {
+const changeFormState = (node, condition) => {
+  node.forEach((element) => {
     element.disabled = condition;
   });
 
@@ -82,7 +83,7 @@ const changeFormState (node, condition) => {
 
 // при загрузке страницы фильтры находятся в неактивном состоянии
 const changeFilterState = (node, condition) => {
-  node.forEach(element => {
+  node.forEach((element) => {
     element.disabled = condition;
   });
 
@@ -93,64 +94,38 @@ const changeFilterState = (node, condition) => {
   }
 };
 
-const changeTypeHandler = (targetValue) => {
-  const price = MIN_PRICE[targetValue];
-  priceInput.min = price;
-  priceInput.placeholder = price;
+const changeTypeOfHouse = () => {
+  const minPrice = minPrices[typeInput.value];
+  priceInput.placeholder = minPrice;
+  priceInput.min = minPrice;
 };
 
-const changeTimeHandler = (targetValue) => {
-  checkOut.value = targetValue;
-  checkIn.value = targetValue;
+typeInput.addEventListener('change', changeTypeOfHouse);
+
+formTime.addEventListener('change', (evt) => {
+  checkOut.value = evt.target.value;
+  checkIn.value = evt.target.value;
+});
+
+
+const validateRooms = () => {
+  const roomValue = roomNumber.value;
+
+  guestNumber.forEach((guest) => {
+    const isDisabled = (NumberOfGuests[roomValue].indexOf(guest.value) === -1);
+    guest.selected = NumberOfGuests[roomValue][0] === guest.value;
+    guest.disabled = isDisabled;
+    guest.hidden = isDisabled;
+  });
 };
 
-const getOptionsHandler = (options) => {
-  let memoOptions = [];
+validateRooms();
 
-  return (targetValue) => {
-    memoOptions.forEach(item => {
-      item.disabled = false;
-    });
-
-    const index = options.findIndex(elem => elem.value === targetValue);
-    const arrayToDisabled = index !== -1 ? options.slice(index + 1) : options.slice(0, options.length - 1);
-    arrayToDisabled.forEach(item => {
-      item.disabled = true;
-    });
-
-    memoOptions = [...arrayToDisabled];
-  };
+const changeRoomNumber = () => {
+  validateRooms();
 };
 
-const getCapacityHandler = getOptionsHandler([...capacity]);
-getCapacityHandler(roomNumber.value);
-
-const selectCapacityHandler = (targetValue) => {
-  capacity.value = +targetValue === MAX_ROOMS ? NO_ROOMS : targetValue;
-  getCapacityHandler(targetValue);
-};
-
-const changeHandler = (e) => {
-  const targetInput = e.target;
-  const targetValue = targetInput.value;
-
-  switch (targetInput) {
-    case typeInput:
-      changeTypeHandler(targetValue);
-      break;
-    case checkIn:
-      changeTimeHandler(targetValue);
-      break;
-    case checkOut:
-      changeTimeHandler(targetValue);
-      break;
-    case roomNumber:
-      selectCapacityHandler(targetValue);
-      break;
-    default:
-      break;
-  }
-};
+roomNumber.addEventListener('change', changeRoomNumber);
 
 // валидация на достаточную длину строки title
 const checkTitleInputHandler = () => {
@@ -171,30 +146,21 @@ const resetHandler = (evt) => {
   resetPage();
 };
 
-//отправка формы
-const sendOfferFormSubmit = (evt) => {
-  evt.preventDefault();
-  sendData(
-    () => showModal(success),
-    () => showModal(error),
-    new FormData(e.target),
-  );
-};
 
 // ставлю обработчики на форму
-form.addEventListener('change', changeHandler);
-form.addEventListener('submit', sendOfferFormSubmit);
 titleInput.addEventListener('input', checkTitleInputHandler);
 resetButton.addEventListener('click', resetHandler);
 
 export {
   form,
-  avatarPreview,
-  housingImagePreview,
   formChildren,
   mapFilters,
   mapFiltersChildren,
   addressInput,
   changeFormState,
-  changeFilterState
+  changeFilterState,
+  avatarImagePreview,
+  housingImagePreview,
+  error,
+  success
 };

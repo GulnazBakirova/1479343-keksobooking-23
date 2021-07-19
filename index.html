@@ -26,7 +26,6 @@
 
       <!-- Блок для вставки карты -->
       <div class="map__canvas" id="map-canvas" style="width: 1200px; height: 500px;"></div>
-      <button id="reset" type="button">Вернуть метку на место</button>
 
       <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
@@ -98,7 +97,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address" value="35.68950, 139.69171" required readonly>Адрес (координаты)</label>
-          <input id="address" name="address" type="text">
+          <input id="address" name="address" type="text" readonly>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -112,7 +111,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" required max="1000000" placeholder="1000">
+          <input id="price" name="price" type="number" required min="1000" max="1000000" placeholder="1000">
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -139,9 +138,9 @@
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="capacity">Количество мест</label>
           <select id="capacity" name="capacity">
-            <option value="3" selected>для 3 гостей</option>
+            <option value="3">для 3 гостей</option>
             <option value="2">для 2 гостей</option>
-            <option value="1">для 1 гостя</option>
+            <option value="1" selected>для 1 гостя</option>
             <option value="0">не для гостей</option>
           </select>
         </fieldset>
@@ -237,6 +236,7 @@
     </div>
   </template>
 <script src="leaflet/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
 <script type="module" src="js/main.js"></script>
 </body>
 </html>

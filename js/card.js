@@ -1,73 +1,89 @@
-const housingTypes = {
-  palace: 'Дворец',
-  house: 'Дом',
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  hotel: 'Отель',
-};
-
-const checkInOut = [
-  'checkin',
-  'checkout',
-];
+import {
+  housingTypes,
+  checkInOut,
+  GuestsQuantity,
+  IMAGE_WIDTH,
+  IMAGE_HEIGHT
+} from './data.js';
 
 // в попапе синхронизация поля «Количество комнат» с полем «Количество мест»
 const getCapacityOfRooms = (guests, rooms) => {
   let capacity;
 
   switch (rooms) {
-    case 1: capacity = `${rooms} комната - `;
+    case GuestsQuantity.ONE:
+      capacity = `${rooms} комната - `;
       break;
-    case 2:
-    case 3:
-    case 4: capacity = `${rooms} комнаты - `;
+    case GuestsQuantity.TWO:
+    case GuestsQuantity.THREE:
+    case GuestsQuantity.HUNDRED:
+      capacity = `${rooms} комнат не для гостей.`;
       break;
-    case 100: capacity = `${rooms} комнат не для гостей.`;
-      break;
-    default: capacity = `${rooms} комнат - `;
+    default:
+      capacity = `${rooms} комнат - `;
   }
 
   if (typeof guests === 'number') {
-    return capacity += `для ${guests} гост${guests === 1 ? 'я' : 'ей'}.`;
+    return capacity += `для ${guests} гост${guests === GuestsQuantity.ONE ? 'я' : 'ей'}.`;
   }
   return capacity;
 };
 
 const getCurrentOffer = (currentOffer) => {
-  const {author, offer, location, extended} = currentOffer;
+  const {
+    author,
+    offer,
+    location,
+    extended,
+  } = currentOffer;
   currentOffer = Object.assign({}, author, offer, location, extended);
   currentOffer.time = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   currentOffer.capacity = getCapacityOfRooms(currentOffer.guests, currentOffer.rooms);
-  checkInOut.forEach(field => delete currentOffer[field]);
+  checkInOut.forEach((field) => delete currentOffer[field]);
   return currentOffer;
 };
 
 // рендер и показ картинок жилья в попапе
-const renderPhotos = (photos, photoElement) => {
-  photoElement.textContent = '';
-  photos.forEach((item) => {
-    photoElement.insertAdjacentHTML('beforeend',
-      `<img src=${item} class="popup__photo" width="50" height="50" alt="Фотография жилья">`);
+const renderPhotos = function (array, photoElement) {
+  const fragment = document.createDocumentFragment();
+  array.forEach((element) => {
+    const image = document.createElement('img');
+    image.classList.add('popup__photo');
+    image.alt = 'Фотография жилья';
+    image.src = element;
+    image.width = IMAGE_WIDTH;
+    image.height = IMAGE_HEIGHT;
+    fragment.appendChild(image);
   });
+
+  photoElement.innerHTML = '';
+  photoElement.appendChild(fragment);
 };
 
+
 // рендер и показ части features в попапе
-const renderFeatures = (features, featureElement) => {
-  featureElement.textContent = '';
-  features.forEach((item) => {
-    featureElement.insertAdjacentHTML('beforeend',
-      `<li class="popup__feature popup__feature--${item}"></li>`);
+const renderFeatures = function (array, featureElement) {
+  const fragment = document.createDocumentFragment();
+  array.forEach((element) => {
+    const container = document.createElement('li');
+    container.classList.add('popup__feature');
+    container.classList.add(`popup__feature--${element}`);
+    fragment.appendChild(container);
   });
+
+  featureElement.innerHTML = '';
+  featureElement.appendChild(fragment);
 };
+
 
 // создаю попап, чтобы добавить его к меткам объявлений
 const createCustomPopup = (currentOffer) => {
   const popup = document.querySelector('#card').content.querySelector('.popup').cloneNode(true);
   const nodes = Array.from(popup.children);
   const keys = Object.keys(currentOffer);
-  const classes = nodes.map(item => item.classList.value);
+  const classes = nodes.map((item) => item.classList.value);
   classes.forEach((item, i) => {
-    const key = keys.find(key => item.includes(key));
+    const key = keys.find((keyValue) => item.includes(keyValue));
     const value = currentOffer[key];
     const node = nodes[i];
     if (!key || !value || value.length === 0) {
@@ -100,4 +116,3 @@ export {
   getCurrentOffer,
   createCustomPopup
 };
-
