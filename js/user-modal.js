@@ -49,12 +49,13 @@ const escapeSuccessKeydownHandler = (evt) => {
   }
 };
 
-const closeSuccessModal = () => {
+// function declaration для hoisting
+function closeSuccessModal () {
   const popUp = main.querySelector('.success');
   popUp.remove();
   document.removeEventListener('click', closeSuccessModal);
   document.removeEventListener('keydown', escapeSuccessKeydownHandler);
-};
+}
 
 const openModal = () => {
   const successPopUp = successMesage.cloneNode(true);
@@ -70,7 +71,8 @@ const createErrorMesage = () => {
   main.appendChild(error);
 };
 
-const escapeErrorKeydownHandler = (evt) => {
+// function declaration для hoisting
+function escapeErrorKeydownHandler (evt) {
   const popUpError = main.querySelector('.error');
 
   evt.preventDefault();
@@ -81,14 +83,15 @@ const escapeErrorKeydownHandler = (evt) => {
 
   document.removeEventListener('keydown', escapeErrorKeydownHandler);
   document.removeEventListener('click', closeErrorModal);
-};
+}
 
-const closeErrorModal = () => {
+// function declaration для hoisting
+function closeErrorModal () {
   const popUpError = main.querySelector('.error');
   popUpError.remove();
   document.removeEventListener('click', closeErrorModal);
   document.removeEventListener('keydown', escapeErrorKeydownHandler);
-};
+}
 
 resetFormButton.addEventListener('click', (evt) => {
   evt.preventDefault();
