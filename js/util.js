@@ -1,7 +1,7 @@
 import {
   START_POINTS,
   AVATAR_DEFAULT,
-  FILE_TYPES
+  FILES_TYPES
 } from './data.js';
 
 import {
@@ -34,19 +34,17 @@ export const resetPage = () => {
 
 // открытие модального окна
 export const showModal = (response) => {
+  openModal(response);
   if (response === success) {
-    openModal(response);
     resetPage();
     refreshMap();
-  } else {
-    openModal(response);
   }
 };
 
 // валидация на формат картинки
 export const checkPictureFormat = (pictureName) => {
   pictureName.toLowerCase();
-  return FILE_TYPES.some((fileTypes) => pictureName.endsWith(fileTypes));
+  return FILES_TYPES.some((fileTypes) => pictureName.endsWith(fileTypes));
 };
 
 export const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';

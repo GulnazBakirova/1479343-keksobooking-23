@@ -90,8 +90,8 @@ mainPinMarker.on('moveend', (e) => {
 const getOffers = (offers) => offers.map((item) => getCurrentOffer(item));
 
 // добавляю попап к меткам объявлений
-const getMarkers = (pins) => {
-  return pins.slice(0, PINS_AMOUNT).map((pin) => L.marker(
+const getMarkers = (pins) =>
+  pins.slice(0, PINS_AMOUNT).map((pin) => L.marker(
     {
       lat: pin.lat,
       lng: pin.lng,
@@ -105,7 +105,6 @@ const getMarkers = (pins) => {
       keepInView: true,
     },
   ));
-};
 
 const showPins = (markers) => markers.forEach((marker) => marker.addTo(map));
 

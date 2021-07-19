@@ -1,7 +1,11 @@
 import {
-  PRICES,
+  prices,
   RERENDER_DELAY,
-  ERROR
+  ERROR,
+  ANY,
+  LOW,
+  MIDDLE,
+  HIGH
 } from './data.js';
 
 import {
@@ -18,7 +22,6 @@ import {
   debounce
 } from './util.js';
 
-
 export const filterPins = (offers, markers) => {
   const getFilterParameter = (evt) => {
     const target = evt.target;
@@ -28,18 +31,18 @@ export const filterPins = (offers, markers) => {
     };
   };
 
-  const filterByType = (array, parameter, value) => value === 'any' ? array : array.filter((offer) => offer[parameter] === value);
+  const filterByType = (array, parameter, value) => value === ANY ? array : array.filter((offer) => offer[parameter] === value);
 
-  const filterByCapacity = (array, parameter, value) => value === 'any' ? array : array.filter((offer) => offer[parameter] === +value);
+  const filterByCapacity = (array, parameter, value) => value === ANY ? array : array.filter((offer) => offer[parameter] === +value);
 
-  const filterByPrice = (array, parameter, value) => value === 'any' ? array : array.filter((offer) => {
+  const filterByPrice = (array, parameter, value) => value === ANY ? array : array.filter((offer) => {
     switch (value) {
-      case 'low':
-        return +offer[parameter] < PRICES.low;
-      case 'high':
-        return +offer[parameter] > PRICES.high;
-      case 'middle':
-        return +offer[parameter] <= PRICES.high && +offer[parameter] >= PRICES.low;
+      case LOW:
+        return +offer[parameter] < prices.low;
+      case HIGH:
+        return +offer[parameter] > prices.high;
+      case MIDDLE:
+        return +offer[parameter] <= prices.high && +offer[parameter] >= prices.low;
       default:
         return ERROR;
     }
@@ -56,7 +59,7 @@ export const filterPins = (offers, markers) => {
     }
   };
 
-  const Filters = {
+  const filters = {
     result: [],
     byType(value) {
       this.result = filterByType(this.result, 'type', value);
@@ -84,26 +87,26 @@ export const filterPins = (offers, markers) => {
   const createFilterChangeHandler = () => {
     let filteredMarkers = [...markers];
     const filterValues = {
-      type: 'any',
-      price: 'any',
-      rooms: 'any',
-      guests: 'any',
+      type: ANY,
+      price: ANY,
+      rooms: ANY,
+      guests: ANY,
     };
 
     return (evt) => {
       const { parameter, value } = getFilterParameter(evt);
       hidePins(filteredMarkers);
 
-      Filters.result = [...offers];
+      filters.result = [...offers];
       filterValues[parameter] = value;
-      Filters
+      filters
         .byType(filterValues.type)
         .byPrice(filterValues.price)
         .byRooms(filterValues.rooms)
         .byGuests(filterValues.guests)
         .byFeatures();
 
-      filteredMarkers = getMarkers(Filters.result);
+      filteredMarkers = getMarkers(filters.result);
       showPins(filteredMarkers);
     };
   };

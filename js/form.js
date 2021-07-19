@@ -1,7 +1,7 @@
 import {
   MAX_TITLE_LENGTH,
   MIN_TITLE_LENGTH,
-  MIN_PRICES,
+  minPrices,
   NumberOfGuests
 } from './data.js';
 
@@ -95,7 +95,7 @@ const changeFilterState = (node, condition) => {
 };
 
 const changeTypeOfHouse = () => {
-  const minPrice = MIN_PRICES[typeInput.value];
+  const minPrice = minPrices[typeInput.value];
   priceInput.placeholder = minPrice;
   priceInput.min = minPrice;
 };

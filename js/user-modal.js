@@ -4,32 +4,16 @@ import {
 } from './util.js';
 
 import {
-  SERVER
-} from './data.js';
+  sendData
+} from './api.js';
 
 const errorGetData = document.querySelector('.error-data');
 const resetButton = document.querySelector('.ad-form__reset');
-const form = document.querySelector('.ad-form');
 const main = document.querySelector('main');
 const successMesage = document.querySelector('#success')
   .content;
 const errorMesage = document.querySelector('#error')
   .content;
-
-const submitAdForm = (onSuccess, onError) => {
-  form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const formData = new FormData(evt.target);
-    fetch(
-      SERVER,
-      {
-        method: 'POST',
-        body: formData,
-      },
-    ).then(() => onSuccess())
-      .catch(() => onError());
-  });
-};
 
 const escapeSuccessKeydownHandler = (evt) => {
   const popUp = main.querySelector('.success');
@@ -96,7 +80,7 @@ const createSuccessSubmission = () => {
   resetPage();
 };
 
-submitAdForm(createSuccessSubmission, createErrorMesage);
+sendData(createSuccessSubmission, createErrorMesage);
 
 export {
   errorGetData,

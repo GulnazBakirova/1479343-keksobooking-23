@@ -1,17 +1,5 @@
 export const PINS_AMOUNT = 10;
 
-export const MIN_PRICES = {
-  flat: 1000,
-  bungalow: 0,
-  house: 5000,
-  palace: 10000,
-  hotel: 3000,
-};
-export const PRICES = {
-  low: 10000,
-  high: 50000,
-};
-
 export const AVATAR_DEFAULT = 'img/muffin-grey.svg';
 
 export const MAX_DECIMAL_NUMBERS = 5;
@@ -39,8 +27,25 @@ export const RERENDER_DELAY = 500;
 export const ERROR_POST_MESSAGE = 'Не удалось отправить форму. Попробуйте ещё раз';
 export const ERROR = 'Ошибка!';
 
-export const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+export const FILES_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 export const DEFAULT_AVATAR = 'img/muffin-grey.svg';
+
+export const ANY = 'any';
+export const LOW = 'low';
+export const MIDDLE = 'middle';
+export const HIGH = 'high';
+
+export const minPrices = {
+  flat: 1000,
+  bungalow: 0,
+  house: 5000,
+  palace: 10000,
+  hotel: 3000,
+};
+export const prices = {
+  low: 10000,
+  high: 50000,
+};
 
 export  const housingTypes = {
   palace: 'Дворец',
