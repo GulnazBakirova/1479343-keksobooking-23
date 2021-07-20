@@ -24,7 +24,7 @@ import {
 } from './map.js';
 
 import {
-  debounce
+  removeDebounce
 } from './util.js';
 
 export const filterPins = (offers, markers) => {
@@ -77,23 +77,23 @@ export const filterPins = (offers, markers) => {
 
   const filters = {
     result: [],
-    byType(value) {
+    filtrateByType(value) {
       this.result = filterByType(this.result, TYPE_FILTER, value);
       return this;
     },
-    byPrice(value) {
+    filtrateByPrice(value) {
       this.result = filterByPrice(this.result, PRICE_FILTER, value);
       return this;
     },
-    byRooms(value) {
+    filtrateByRooms(value) {
       this.result = filterByCapacity(this.result, ROOMS_FILTER, value);
       return this;
     },
-    byGuests(value) {
+    filtrateByGuests(value) {
       this.result = filterByCapacity(this.result, GUESTS_FILTER, value);
       return this;
     },
-    byFeatures() {
+    filtrateByFeatures() {
       this.result = filterByCheckboxes(this.result, 'features');
       return this;
     },
@@ -116,16 +116,16 @@ export const filterPins = (offers, markers) => {
       filters.result = [...offers];
       filterValues[parameter] = value;
       filters
-        .byType(filterValues.type)
-        .byPrice(filterValues.price)
-        .byRooms(filterValues.rooms)
-        .byGuests(filterValues.guests)
-        .byFeatures();
+        .filtrateByType(filterValues.type)
+        .filtrateByPrice(filterValues.price)
+        .filtrateByRooms(filterValues.rooms)
+        .filtrateByGuests(filterValues.guests)
+        .filtrateByFeatures();
 
       filteredMarkers = getMarkers(filters.result);
       showPins(filteredMarkers);
     };
   };
 
-  mapFilters.addEventListener('change', debounce(createFilterChangeHandler(), RERENDER_DELAY), true);
+  mapFilters.addEventListener('change', removeDebounce(createFilterChangeHandler(), RERENDER_DELAY), true);
 };
