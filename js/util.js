@@ -23,7 +23,8 @@ const picture = {
   alt: 'Фотография жилья',
   width: 70,
   height: 70,
-}
+};
+
 const avatar = document.querySelector('#avatar');
 const form = document.querySelector('.ad-form');
 const avatarImageContainer = form.querySelector('.ad-form-header__preview');
@@ -37,9 +38,9 @@ const showPreviewOfImage = (container, tagName, pictureAttribute) => {
     const file = evt.target.files[0];
     const fileName = file.name.toLowerCase();
 
-    const matches = FILES_TIPES.some((it) => {
+    const matches = FILES_TYPES.some((it) => {
       return fileName.endsWith(it);
-    })
+    });
 
     if (matches) {
       const reader = new FileReader();
@@ -50,7 +51,7 @@ const showPreviewOfImage = (container, tagName, pictureAttribute) => {
           element = document.createElement(tagName);
           element.width = pictureAttribute.width;
           element.height = pictureAttribute.height;
-          element.alt = pictureAttribute.alt
+          element.alt = pictureAttribute.alt;
           container.appendChild(element);
         }
 
@@ -59,9 +60,9 @@ const showPreviewOfImage = (container, tagName, pictureAttribute) => {
 
       reader.readAsDataURL(file);
     }
-  }
-  return changeAvatar
-}
+  };
+  return changeAvatar;
+};
 
 avatar.addEventListener('change', showPreviewOfImage(avatarImageContainer,TAGNAME, picture));
 inputPhotoOfHousing.addEventListener('change', showPreviewOfImage(housingPictureContainer,TAGNAME, picture));
@@ -72,8 +73,8 @@ export const resetPage = () => {
   form.reset();
   mapFilters.reset();
   addressInput.value = START_POINTS;
-  avatarImagePreview.src = AVATAR_DEFAULT;
-  housingImagePreview.textContent = '';
+  avatarImageContainer.src = AVATAR_DEFAULT;
+  housingPictureContainer.textContent = '';
   refreshMap();
 };
 

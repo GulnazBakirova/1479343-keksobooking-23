@@ -32,9 +32,6 @@ const capacity = form.querySelector('#capacity');
 const formTime = form.querySelector('.ad-form__element--time');
 const guestNumber = capacity.querySelectorAll('option');
 
-
-
-
 // при загрузке страницы форма находится в неактивном состоянии
 const changeFormState = (node, condition) => {
   node.forEach((element) => {
