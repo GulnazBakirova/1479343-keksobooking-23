@@ -9,7 +9,7 @@ import {
 } from './user-modal.js';
 
 import {
-  refreshMap
+  setMapRefresh
 } from './map.js';
 
 import {
@@ -75,7 +75,7 @@ export const resetPage = () => {
   addressInput.value = START_POINTS;
   avatarImageContainer.src = AVATAR_DEFAULT;
   housingPictureContainer.textContent = '';
-  refreshMap();
+  setMapRefresh();
 };
 
 // открытие модального окна
@@ -83,7 +83,7 @@ export const showModal = (response) => {
   openModal(response);
   if (response === success) {
     resetPage();
-    refreshMap();
+    setMapRefresh();
   }
 };
 

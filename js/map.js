@@ -111,7 +111,7 @@ const showPins = (markers) => markers.forEach((marker) => marker.addTo(map));
 const hidePins = (markers) => markers.forEach((marker) => marker.remove());
 
 // возвращение к начальным значениям масштаба и центра карты
-const refreshMap = () => {
+const setMapRefresh = () => {
   map.setView(START_POINTS_OBJECT, ZOOM);
   const startLatLng = new L.LatLng(TOKYO_LAT, TOKYO_LNG);
   mainPinMarker.setLatLng(startLatLng);
@@ -131,7 +131,7 @@ const refreshMap = () => {
 };
 
 export {
-  refreshMap,
+  setMapRefresh,
   getOffers,
   getMarkers,
   showPins,
