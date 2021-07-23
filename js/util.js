@@ -31,9 +31,9 @@ const avatarImageContainer = form.querySelector('.ad-form-header__preview');
 const inputPhotoOfHousing = form.querySelector('.ad-form__input');
 const housingPictureContainer = form.querySelector('.ad-form__photo');
 
-const ImagePreviewShowHandler = (container, tagName, pictureAttribute) => {
+const setAvatarChange = (container, tagName, pictureAttribute, field) => {
 
-  const changeAvatar = (evt) => {
+  const changePreviewImageHandler = (evt) => {
     let element = container.querySelector(tagName);
     const file = evt.target.files[0];
     const fileName = file.name.toLowerCase();
@@ -59,11 +59,11 @@ const ImagePreviewShowHandler = (container, tagName, pictureAttribute) => {
       reader.readAsDataURL(file);
     }
   };
-  return changeAvatar;
+  field.addEventListener('change', changePreviewImageHandler);
 };
 
-avatar.addEventListener('change', ImagePreviewShowHandler(avatarImageContainer, TAGNAME, picture));
-inputPhotoOfHousing.addEventListener('change', ImagePreviewShowHandler(housingPictureContainer,TAGNAME, picture));
+setAvatarChange(avatarImageContainer, TAGNAME, picture, avatar);
+setAvatarChange(housingPictureContainer, TAGNAME, picture, inputPhotoOfHousing);
 
 
 // сброс страницы
@@ -89,7 +89,7 @@ export const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
 export const removeDebounce = (func, wait, immediate) => {
   let timeout;
-  return function() {
+  return function () {
     const context = this;
     const args = arguments;
     clearTimeout(timeout);
@@ -104,4 +104,3 @@ export const removeDebounce = (func, wait, immediate) => {
     }
   };
 };
-

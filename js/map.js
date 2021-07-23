@@ -15,6 +15,7 @@ import {
   MAX_DECIMAL_NUMBERS,
   MAIN_PIN,
   PIN,
+  START_POINTS,
   START_POINTS_OBJECT,
   TOKYO_LAT,
   TOKYO_LNG,
@@ -27,15 +28,16 @@ import {
 } from './api.js';
 
 import {
-  errorGetData,
-  openModal
+  createErrorMesage
 } from './user-modal.js';
 
 import {
   filterPins
 } from './filter.js';
 
+addressInput.value = START_POINTS;
 
+const map = L.map('map-canvas');
 
 changeFormState(formChildren, true);
 changeFilterState(mapFiltersChildren, true);
@@ -65,23 +67,19 @@ const getMarkers = (pins) =>
 const showPins = (markers) => markers.forEach((marker) => marker.addTo(map));
 
 // создаю карту
-const map = L.map('map-canvas')
-  .on('load', () => {
-    getData(
-      (offers) => {
-        const dataOffers = getOffers(offers);
-        const markers = getMarkers(dataOffers);
-        changeFormState(formChildren, true);
-        changeFilterState(mapFiltersChildren, true);
-        showPins(markers);
-        filterPins(dataOffers, markers);
-      },
-      () => {
-        openModal(errorGetData);
-        changeFilterState(mapFiltersChildren, true);
-      },
-    );
-  })
+map.on('load', () => {
+  getData(
+    (offers) => {
+      const dataOffers = getOffers(offers);
+      const markers = getMarkers(dataOffers);
+      changeFormState(formChildren, false);
+      changeFilterState(mapFiltersChildren, false);
+      showPins(markers);
+      filterPins(dataOffers, markers);
+    },
+    createErrorMesage,
+  );
+})
   .setView(START_POINTS_OBJECT, ZOOM);
 
 // добавляю изображение карты
@@ -106,14 +104,12 @@ const mainPinMarker = L.marker(
   },
 );
 
-
 mainPinMarker.addTo(map);
 
 mainPinMarker.on('moveend', (e) => {
   const coordinates = e.target.getLatLng();
   addressInput.value = `${coordinates.lat.toFixed(MAX_DECIMAL_NUMBERS)}, ${coordinates.lng.toFixed(MAX_DECIMAL_NUMBERS)}`;
 });
-
 
 
 const hidePins = (markers) => markers.forEach((marker) => marker.remove());
@@ -124,7 +120,6 @@ const setMapRefresh = () => {
   const startLatLng = new L.LatLng(TOKYO_LAT, TOKYO_LNG);
   mainPinMarker.setLatLng(startLatLng);
 };
-
 
 export {
   setMapRefresh,
