@@ -15,7 +15,6 @@ import {
   MAX_DECIMAL_NUMBERS,
   MAIN_PIN,
   PIN,
-  START_POINTS,
   START_POINTS_OBJECT,
   TOKYO_LAT,
   TOKYO_LNG,
@@ -37,23 +36,58 @@ import {
 } from './filter.js';
 
 
+
 changeFormState(formChildren, true);
 changeFilterState(mapFiltersChildren, true);
+
+const getOffers = (offers) => offers.map((item) => getCurrentOffer(item));
+
+// добавляю иконки на карту
+const icon = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [PIN, PIN],
+  iconAnchor: [PIN / 2, PIN],
+});
+
+// добавляю попап к меткам объявлений
+const getMarkers = (pins) =>
+  pins.slice(0, PINS_AMOUNT).map((pin) => L.marker({
+    lat: pin.lat,
+    lng: pin.lng,
+  }, {
+    icon,
+  }).bindPopup(
+    createCustomPopup(pin), {
+      keepInView: true,
+    },
+  ));
+
+const showPins = (markers) => markers.forEach((marker) => marker.addTo(map));
 
 // создаю карту
 const map = L.map('map-canvas')
   .on('load', () => {
-    changeFormState(formChildren, false);
-    changeFilterState(mapFiltersChildren, false);
-    addressInput.value = START_POINTS;
+    getData(
+      (offers) => {
+        const dataOffers = getOffers(offers);
+        const markers = getMarkers(dataOffers);
+        changeFormState(formChildren, true);
+        changeFilterState(mapFiltersChildren, true);
+        showPins(markers);
+        filterPins(dataOffers, markers);
+      },
+      () => {
+        openModal(errorGetData);
+        changeFilterState(mapFiltersChildren, true);
+      },
+    );
   })
   .setView(START_POINTS_OBJECT, ZOOM);
 
 // добавляю изображение карты
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>',
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>',
   },
 ).addTo(map);
 
@@ -66,19 +100,12 @@ const mainPinIcon = L.icon({
 
 // добавляю главный маркер
 const mainPinMarker = L.marker(
-  START_POINTS_OBJECT,
-  {
+  START_POINTS_OBJECT, {
     draggable: true,
     icon: mainPinIcon,
   },
 );
 
-// добавляю иконки на карту
-const icon = L.icon({
-  iconUrl: './img/pin.svg',
-  iconSize: [PIN, PIN],
-  iconAnchor: [PIN / 2, PIN],
-});
 
 mainPinMarker.addTo(map);
 
@@ -87,26 +114,7 @@ mainPinMarker.on('moveend', (e) => {
   addressInput.value = `${coordinates.lat.toFixed(MAX_DECIMAL_NUMBERS)}, ${coordinates.lng.toFixed(MAX_DECIMAL_NUMBERS)}`;
 });
 
-const getOffers = (offers) => offers.map((item) => getCurrentOffer(item));
 
-// добавляю попап к меткам объявлений
-const getMarkers = (pins) =>
-  pins.slice(0, PINS_AMOUNT).map((pin) => L.marker(
-    {
-      lat: pin.lat,
-      lng: pin.lng,
-    },
-    {
-      icon,
-    },
-  ).bindPopup(
-    createCustomPopup(pin),
-    {
-      keepInView: true,
-    },
-  ));
-
-const showPins = (markers) => markers.forEach((marker) => marker.addTo(map));
 
 const hidePins = (markers) => markers.forEach((marker) => marker.remove());
 
@@ -115,20 +123,8 @@ const setMapRefresh = () => {
   map.setView(START_POINTS_OBJECT, ZOOM);
   const startLatLng = new L.LatLng(TOKYO_LAT, TOKYO_LNG);
   mainPinMarker.setLatLng(startLatLng);
-
-  getData(
-    (offers) => {
-      const dataOffers = getOffers(offers);
-      const markers = getMarkers(dataOffers);
-      showPins(markers);
-      filterPins(dataOffers, markers);
-    },
-    () => {
-      openModal(errorGetData);
-      changeFilterState(mapFiltersChildren, true);
-    },
-  );
 };
+
 
 export {
   setMapRefresh,

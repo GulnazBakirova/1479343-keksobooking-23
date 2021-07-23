@@ -44,7 +44,7 @@ const getCurrentOffer = (currentOffer) => {
 };
 
 // рендер и показ картинок жилья в попапе
-const renderPhotos = function (array, photoElement) {
+const renderPhotos = (array, photoElement) => {
   const fragment = document.createDocumentFragment();
   array.forEach((element) => {
     const image = document.createElement('img');
@@ -62,7 +62,7 @@ const renderPhotos = function (array, photoElement) {
 
 
 // рендер и показ части features в попапе
-const renderFeatures = function (array, featureElement) {
+const renderFeatures = (array, featureElement) => {
   const fragment = document.createDocumentFragment();
   array.forEach((element) => {
     const container = document.createElement('li');

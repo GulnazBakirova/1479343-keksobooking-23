@@ -58,13 +58,13 @@ const changeFilterState = (node, condition) => {
   }
 };
 
-const changeTypeOfHouse = () => {
+const onTypeOfHouseChange = () => {
   const minPrice = minPrices[typeInput.value];
   priceInput.placeholder = minPrice;
   priceInput.min = minPrice;
 };
 
-typeInput.addEventListener('change', changeTypeOfHouse);
+typeInput.addEventListener('change', onTypeOfHouseChange);
 
 formTime.addEventListener('change', (evt) => {
   checkOut.value = evt.target.value;
@@ -85,11 +85,11 @@ const validateRooms = () => {
 
 validateRooms();
 
-const changeRoomNumber = () => {
+const onRoomNumberChange = () => {
   validateRooms();
 };
 
-roomNumber.addEventListener('change', changeRoomNumber);
+roomNumber.addEventListener('change', onRoomNumberChange);
 
 // валидация на достаточную длину строки title
 const checkTitleInputHandler = () => {

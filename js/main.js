@@ -5,17 +5,11 @@ import {
 } from './map.js';
 
 import {
-  mapFiltersChildren,
-  changeFilterState
-} from './form.js';
-
-import {
   getData
 } from './api.js';
 
 import {
-  errorGetData,
-  openModal
+  createErrorMesage
 } from './user-modal.js';
 
 import {
@@ -29,8 +23,5 @@ getData(
     showPins(markers);
     filterPins(dataOffers, markers);
   },
-  () => {
-    openModal(errorGetData);
-    changeFilterState(mapFiltersChildren, true);
-  },
+  createErrorMesage,
 );

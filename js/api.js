@@ -1,15 +1,19 @@
 import {
   DATA,
   SERVER,
-  ERROR_POST_MESSAGE
+  ERROR_POST_MESSAGE,
+  ERROR_GET_MESSAGE
 } from './data.js';
 
 // метод для получения данных
-export const getData = (onSuccess) => {
+export const getData = (onSuccess, onFail) => {
   fetch(DATA)
     .then((response) => response.json())
     .then((offers) => {
       onSuccess(offers);
+    })
+    .catch(() => {
+      onFail(ERROR_GET_MESSAGE);
     });
 };
 

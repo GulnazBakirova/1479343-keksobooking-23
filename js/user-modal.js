@@ -23,29 +23,31 @@ const escapeSuccessKeydownHandler = (evt) => {
   if (isEscEvent(evt)) {
     popUp.remove();
     document.removeEventListener('keydown', escapeSuccessKeydownHandler);
-    document.removeEventListener('click', closeSuccessModal);
+    document.removeEventListener('click', closeSuccessPopUpHandler);
   }
 };
 
 // function declaration для hoisting
-function closeSuccessModal () {
+function closeSuccessPopUpHandler () {
   const popUp = main.querySelector('.success');
   popUp.remove();
-  document.removeEventListener('click', closeSuccessModal);
+  document.removeEventListener('click', closeSuccessPopUpHandler);
   document.removeEventListener('keydown', escapeSuccessKeydownHandler);
 }
 
 const openModal = () => {
   const successPopUp = successMesage.cloneNode(true);
   document.addEventListener('keydown', escapeSuccessKeydownHandler);
-  document.addEventListener('click', closeSuccessModal);
+  document.addEventListener('click', closeSuccessPopUpHandler);
   main.appendChild(successPopUp);
 };
 
-const createErrorMesage = () => {
+const createErrorMesage = (message) => {
   const error = errorMesage.cloneNode(true);
+  const errorText = error.querySelector('.error__message');
+  errorText.textContent = message ? message : 'Не удалось отправить данные';
   document.addEventListener('keydown', escapeErrorKeydownHandler);
-  document.addEventListener('click', closeErrorModal);
+  document.addEventListener('click', closeErrorPopUpHandler);
   main.appendChild(error);
 };
 
@@ -60,14 +62,14 @@ function escapeErrorKeydownHandler (evt) {
   }
 
   document.removeEventListener('keydown', escapeErrorKeydownHandler);
-  document.removeEventListener('click', closeErrorModal);
+  document.removeEventListener('click', closeErrorPopUpHandler);
 }
 
 // function declaration для hoisting
-function closeErrorModal () {
+function closeErrorPopUpHandler () {
   const popUpError = main.querySelector('.error');
   popUpError.remove();
-  document.removeEventListener('click', closeErrorModal);
+  document.removeEventListener('click', closeErrorPopUpHandler);
   document.removeEventListener('keydown', escapeErrorKeydownHandler);
 }
 
@@ -90,5 +92,6 @@ form.addEventListener('submit', (evt) => {
 
 export {
   errorGetData,
-  openModal
+  openModal,
+  createErrorMesage
 };

@@ -31,7 +31,7 @@ const avatarImageContainer = form.querySelector('.ad-form-header__preview');
 const inputPhotoOfHousing = form.querySelector('.ad-form__input');
 const housingPictureContainer = form.querySelector('.ad-form__photo');
 
-const showPreviewOfImage = (container, tagName, pictureAttribute) => {
+const ImagePreviewShowHandler = (container, tagName, pictureAttribute) => {
 
   const changeAvatar = (evt) => {
     let element = container.querySelector(tagName);
@@ -62,8 +62,8 @@ const showPreviewOfImage = (container, tagName, pictureAttribute) => {
   return changeAvatar;
 };
 
-avatar.addEventListener('change', showPreviewOfImage(avatarImageContainer,TAGNAME, picture));
-inputPhotoOfHousing.addEventListener('change', showPreviewOfImage(housingPictureContainer,TAGNAME, picture));
+avatar.addEventListener('change', ImagePreviewShowHandler(avatarImageContainer, TAGNAME, picture));
+inputPhotoOfHousing.addEventListener('change', ImagePreviewShowHandler(housingPictureContainer,TAGNAME, picture));
 
 
 // сброс страницы
