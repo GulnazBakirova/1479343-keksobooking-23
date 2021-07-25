@@ -18,6 +18,7 @@ import {
   success
 } from './form.js';
 
+
 const TAGNAME = 'img';
 const picture = {
   alt: 'Фотография жилья',
@@ -25,11 +26,16 @@ const picture = {
   height: 70,
 };
 
+const PRICE_DEFAULT = '1000';
 const avatar = document.querySelector('#avatar');
 const form = document.querySelector('.ad-form');
 const avatarImageContainer = form.querySelector('.ad-form-header__preview');
+const avatarPicture = avatarImageContainer.querySelector('img');
 const inputPhotoOfHousing = form.querySelector('.ad-form__input');
 const housingPictureContainer = form.querySelector('.ad-form__photo');
+
+
+const formPrice = form.querySelector('#price');
 
 const setAvatarChange = (container, tagName, pictureAttribute, field) => {
 
@@ -70,8 +76,11 @@ setAvatarChange(housingPictureContainer, TAGNAME, picture, inputPhotoOfHousing);
 export const resetPage = () => {
   form.reset();
   mapFilters.reset();
+  formPrice.placeholder = PRICE_DEFAULT;
+  formPrice.min = PRICE_DEFAULT;
   addressInput.value = START_POINTS;
-  avatarImageContainer.src = AVATAR_DEFAULT;
+
+  avatarPicture.src = AVATAR_DEFAULT;
   housingPictureContainer.textContent = '';
   setMapRefresh();
 };

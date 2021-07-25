@@ -27,6 +27,21 @@ import {
   removeDebounce
 } from './util.js';
 
+const filterValues = {
+  type: ANY,
+  price: ANY,
+  rooms: ANY,
+  guests: ANY,
+};
+
+export const resetFilterValues = () => {
+  filterValues.type = ANY;
+  filterValues.price = ANY;
+  filterValues.rooms = ANY;
+  filterValues.guests = ANY;
+};
+
+
 export const filterPins = (offers, markers) => {
   const getFilterParameter = (evt) => {
     const target = evt.target;
@@ -102,13 +117,6 @@ export const filterPins = (offers, markers) => {
 
   const createFilterChangeHandler = () => {
     let filteredMarkers = [...markers];
-    const filterValues = {
-      type: ANY,
-      price: ANY,
-      rooms: ANY,
-      guests: ANY,
-    };
-
     return (evt) => {
       const { parameter, value } = getFilterParameter(evt);
       hidePins(filteredMarkers);

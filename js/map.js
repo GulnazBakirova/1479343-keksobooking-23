@@ -28,7 +28,8 @@ import {
 } from './api.js';
 
 import {
-  createErrorMesage
+  createErrorMesage,
+  openModal
 } from './user-modal.js';
 
 import {
@@ -66,13 +67,12 @@ const getMarkers = (pins) =>
 
 const showPins = (markers) => markers.forEach((marker) => marker.addTo(map));
 
-// создаю карту
 map.on('load', () => {
+  changeFormState(formChildren, false);
   getData(
     (offers) => {
       const dataOffers = getOffers(offers);
       const markers = getMarkers(dataOffers);
-      changeFormState(formChildren, false);
       changeFilterState(mapFiltersChildren, false);
       showPins(markers);
       filterPins(dataOffers, markers);
@@ -119,6 +119,20 @@ const setMapRefresh = () => {
   map.setView(START_POINTS_OBJECT, ZOOM);
   const startLatLng = new L.LatLng(TOKYO_LAT, TOKYO_LNG);
   mainPinMarker.setLatLng(startLatLng);
+
+  getData(
+    (offers) => {
+      const dataOffers = getOffers(offers);
+      const markers = getMarkers(dataOffers);
+      changeFilterState(mapFiltersChildren, false);
+      showPins(markers);
+      filterPins(dataOffers, markers);
+    },
+    () => {
+      openModal(createErrorMesage);
+      changeFilterState(mapFiltersChildren, true);
+    },
+  );
 };
 
 export {
