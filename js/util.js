@@ -1,7 +1,9 @@
 import {
   START_POINTS,
   AVATAR_DEFAULT,
-  FILES_TYPES
+  FILES_TYPES,
+  TAGNAME,
+  PRICE_DEFAULT
 } from './data.js';
 
 import {
@@ -19,14 +21,12 @@ import {
 } from './form.js';
 
 
-const TAGNAME = 'img';
 const picture = {
   alt: 'Фотография жилья',
   width: 70,
   height: 70,
 };
 
-const PRICE_DEFAULT = '1000';
 const avatar = document.querySelector('#avatar');
 const form = document.querySelector('.ad-form');
 const avatarImageContainer = form.querySelector('.ad-form-header__preview');

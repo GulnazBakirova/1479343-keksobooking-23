@@ -44,6 +44,9 @@ export const GUESTS_FILTER = 'guests';
 export const IMAGE_WIDTH = 50;
 export const IMAGE_HEIGHT = 50;
 
+export const TAGNAME = 'img';
+export const PRICE_DEFAULT = '1000';
+
 export const housing = /housing-/;
 
 export const minPrices = {
