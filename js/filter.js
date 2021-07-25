@@ -34,14 +34,6 @@ const filterValues = {
   guests: ANY,
 };
 
-export const resetFilterValues = () => {
-  filterValues.type = ANY;
-  filterValues.price = ANY;
-  filterValues.rooms = ANY;
-  filterValues.guests = ANY;
-};
-
-
 export const filterPins = (offers, markers) => {
   const getFilterParameter = (evt) => {
     const target = evt.target;
